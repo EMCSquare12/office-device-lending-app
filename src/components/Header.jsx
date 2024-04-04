@@ -12,7 +12,7 @@ const Header = () => {
           Office Device Lending App
         </h1>
       </div>
-      <div className="flex flex-row p-4">
+      <div className="flex flex-row px-4 py-2">
         <div className="w-full flex flex-row rounded bg-gray-100 hover:shadow">
           <button className="h-full w-14 flex items-center justify-center text-lg text-gray-500">
             <GoSearch className="text-gray-500" />
