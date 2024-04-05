@@ -3,22 +3,28 @@ import { IoCheckboxOutline } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { GrAdd } from "react-icons/gr";
 
-const SubHeader = () => {
+const SubHeader = ({ subHeader }) => {
   return (
-    <div className="flex flex-row justify-between items-center px-6 py-4 border-b">
-      <h1 className=" font-roboto text-sm md:text-base text-gray-500 tracking-wide ">
-        Sub Header
+    <div className="flex flex-row items-center justify-between h-12 px-4 py-2 border-b">
+      <h1 className="ml-2 text-sm tracking-wide text-gray-500 font-roboto md:text-base ">
+        {subHeader}
       </h1>
-      <div className="flex h-full flex-row gap-4 items-center justify-center">
-        <button className="py-2 px-2 rounded bg-blue-500 text-white text-base gap-1 flex flex-row justify-center items-center">
-          <GrAdd className=" text-white" />
+      <div className="flex flex-row items-center justify-center h-full gap-4">
+        <button className="flex flex-row items-center justify-center gap-1 px-2 py-1 text-base text-white bg-blue-500 rounded hover:bg-blue-600">
+          <GrAdd className="text-white " />
           add
         </button>
         <div className="h-full w-[1px] bg-gray-300"></div>
-        <div className="flex flex-row gap-4 items-center justify-center">
-          <IoFilter className=" text-lg text-gray-500" />
-          <IoCheckboxOutline className=" text-lg text-gray-500" />
-          <FaEdit className=" text-lg text-gray-500" />
+        <div className="flex flex-row items-center justify-center gap-4">
+          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
+            <IoFilter />
+          </button>
+          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
+            <IoCheckboxOutline />
+          </button>
+          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
+            <FaEdit />
+          </button>
         </div>
       </div>
     </div>
