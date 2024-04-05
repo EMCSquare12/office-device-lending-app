@@ -10,7 +10,7 @@ const Header = ({ toggle }) => {
     toggle(!isOpen);
   };
   return (
-    <div className="grid h-20 grid-cols-2 border border-b md:grid-cols-3 ">
+    <div className="grid h-auto grid-cols-2 border border-b md:grid-cols-3 ">
       <div className="flex flex-row items-center h-full gap-5">
         <button
           onClick={handleIsOpen}
@@ -22,7 +22,7 @@ const Header = ({ toggle }) => {
           Office Device Lending App
         </h1>
       </div>
-      <div className="flex flex-row py-4">
+      <div className="flex flex-row p-4">
         <div className="flex flex-row w-full h-full bg-gray-100 rounded hover:shadow">
           <button className="flex items-center justify-center h-full text-lg text-gray-500 w-14">
             <GoSearch className="text-gray-500" />
@@ -30,7 +30,7 @@ const Header = ({ toggle }) => {
           <input
             type="text"
             placeholder="search item"
-            className="w-full h-full pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
+            className="w-full h-12 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
           />
         </div>
       </div>

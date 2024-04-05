@@ -13,7 +13,7 @@ function App() {
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
         <div className="flex flex-col w-full">
-          <SubHeader subHeader={subHeader}/>
+          <SubHeader subHeader={subHeader} />
           <Main />
         </div>
       </div>
