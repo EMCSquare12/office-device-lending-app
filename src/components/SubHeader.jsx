@@ -10,7 +10,7 @@ const SubHeader = ({ subHeader }) => {
         {subHeader}
       </h1>
       <div className="flex flex-row items-center justify-center h-full gap-4">
-        <button className="flex flex-row items-center justify-center gap-1 px-2 py-2 text-base text-white bg-blue-500 rounded">
+        <button className="flex flex-row items-center justify-center h-full gap-1 px-2 text-sm text-white bg-blue-500 rounded md:text-base">
           <GrAdd className="text-white " />
           add
         </button>

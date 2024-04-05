@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
-const TableBody = () => {
+const TableBody = ({ confirmModal }) => {
   const [data, setData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleConfirm = () => {
+    setIsOpen(!isOpen);
+    confirmModal(!isOpen);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +34,22 @@ const TableBody = () => {
       {data.map((item, index) => {
         return (
           <tr
+            onClick={handleConfirm}
             key={index}
             className="relative border-b hover:shadow hover:bg-gray-50"
           >
-            <td className="py-2 w-[20%]   text-left pl-6">
+            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
               {item.Device_Model}
             </td>
-            <td className="py-2 w-[20%]  text-left pl-6">{item.ID}</td>
-            <td className="py-2 w-[20%]   text-left pl-6">
+            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+              {item.ID}
+            </td>
+            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
               {item.Serial_Number}
             </td>
-            <td className="py-2 w-[20%]   text-left pl-6">{item.Status}</td>
+            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+              {item.Status}
+            </td>
             <td className="absolute right-0 flex items-center h-full px-4 text-sm text-gray-500">
               <FaChevronRight />
             </td>
