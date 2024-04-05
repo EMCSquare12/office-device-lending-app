@@ -4,6 +4,7 @@ import Main from "./components/Main";
 import SubHeader from "./components/SubHeader";
 import ConfirmModal from "./components/Modals/ConfirmModal";
 import { useEffect, useState } from "react";
+import EventModal from "./components/Modals/EventModal";
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
@@ -11,8 +12,8 @@ function App() {
   const [item, setItem] = useState();
 
   useEffect(() => {
-    console.log(item)
-  },[item, isConfirmModal])
+    console.log(item);
+  }, [item, isConfirmModal]);
   return (
     <div className="relative">
       {isConfirmModal && (
@@ -21,6 +22,7 @@ function App() {
           closeModal={(value) => setIsConfirmModal(value)}
         />
       )}
+      <EventModal />
       <Header toggle={(value) => setIsOpen(value)} />
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />

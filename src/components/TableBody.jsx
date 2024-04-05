@@ -8,9 +8,8 @@ const TableBody = ({ confirmModal, itemModal }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://sheet.best/api/sheets/9c5cdf0d-f5b1-4c9c-ae69-eb0610af835a"
-        );
+        const response = await fetch();
+        // "https://sheet.best/api/sheets/ce7704fa-7b97-4814-838c-35608e72871e"
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -33,7 +32,7 @@ const TableBody = ({ confirmModal, itemModal }) => {
   };
 
   return (
-    <tbody>
+    <tbody style={{ overflowX: "auto", overflowY: "auto", maxHeight: "400px" }}>
       {data.map((item, index) => {
         return (
           <tr
