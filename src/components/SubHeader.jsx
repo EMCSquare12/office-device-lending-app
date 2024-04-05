@@ -5,26 +5,20 @@ import { GrAdd } from "react-icons/gr";
 
 const SubHeader = ({ subHeader }) => {
   return (
-    <div className="flex flex-row items-center justify-between h-12 px-4 py-2 border-b">
-      <h1 className="ml-2 text-sm tracking-wide text-gray-500 font-roboto md:text-base ">
-        {subHeader}
+    <div className="flex flex-row items-center justify-between px-6 py-4 border-b">
+      <h1 className="text-sm tracking-wide text-gray-500  font-roboto md:text-base">
+        Sub Header
       </h1>
       <div className="flex flex-row items-center justify-center h-full gap-4">
-        <button className="flex flex-row items-center justify-center gap-1 px-2 py-1 text-base text-white bg-blue-500 rounded hover:bg-blue-600">
+        <button className="flex flex-row items-center justify-center gap-1 px-2 py-2 text-base text-white bg-blue-500 rounded">
           <GrAdd className="text-white " />
           add
         </button>
         <div className="h-full w-[1px] bg-gray-300"></div>
         <div className="flex flex-row items-center justify-center gap-4">
-          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
-            <IoFilter />
-          </button>
-          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
-            <IoCheckboxOutline />
-          </button>
-          <button className="text-lg text-gray-500 hover:text-gray-600 focus:text-gray-600">
-            <FaEdit />
-          </button>
+          <IoFilter className="text-lg text-gray-500 " />
+          <IoCheckboxOutline className="text-lg text-gray-500 " />
+          <FaEdit className="text-lg text-gray-500 " />
         </div>
       </div>
     </div>

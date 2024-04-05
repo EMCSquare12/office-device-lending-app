@@ -22,7 +22,7 @@ const Header = ({ toggle }) => {
           Office Device Lending App
         </h1>
       </div>
-      <div className="flex flex-row px-4 py-2">
+      <div className="flex flex-row p-4">
         <div className="flex flex-row w-full bg-gray-100 rounded hover:shadow">
           <button className="flex items-center justify-center h-full text-lg text-gray-500 w-14">
             <GoSearch className="text-gray-500" />
