@@ -22,11 +22,15 @@ const TableBody = () => {
 
     fetchData();
   }, []);
+
   return (
     <tbody>
       {data.map((item, index) => {
         return (
-          <tr key={index} className="relative border-b hover:shadow hover:bg-gray-50">
+          <tr
+            key={index}
+            className="relative border-b hover:shadow hover:bg-gray-50"
+          >
             <td className="py-2 w-[20%]   text-left pl-6">
               {item.Device_Model}
             </td>
