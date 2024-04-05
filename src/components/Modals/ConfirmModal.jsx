@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ConfirmModal = ({ closeModal }) => {
+const ConfirmModal = ({ closeModal, item }) => {
   const [isCloseModal, setIsCloseModal] = useState(false);
   const handleIsCloseModal = () => {
     setIsCloseModal(false);
@@ -15,7 +15,7 @@ const ConfirmModal = ({ closeModal }) => {
         </h1>
         <hr />
         <p className="px-4 py-2 text-sm font-roboto">
-          Are you sure you want to borrow Laptop?
+          Are you sure you want to borrow this {item}?
         </p>
         <hr />
         <div className="flex flex-row justify-end gap-4 p-4">

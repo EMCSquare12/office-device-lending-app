@@ -1,6 +1,6 @@
 import TableBody from "./TableBody";
 
-const Main = ({ confirmModal }) => {
+const Main = ({ confirmModal, itemModal }) => {
   return (
     <div>
       <table className="w-full h-full text-sm text-gray-500 border-b font-roboto">
@@ -20,7 +20,7 @@ const Main = ({ confirmModal }) => {
             </th>
           </tr>
         </thead>
-        <TableBody confirmModal={confirmModal} />
+        <TableBody confirmModal={confirmModal} itemModal={itemModal} />
       </table>
     </div>
   );

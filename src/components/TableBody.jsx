@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
-const TableBody = ({ confirmModal }) => {
+const TableBody = ({ confirmModal, itemModal }) => {
   const [data, setData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleConfirm = () => {
-    setIsOpen(!isOpen);
-    confirmModal(!isOpen);
-  };
+  const [item, setItem] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,12 +25,19 @@ const TableBody = ({ confirmModal }) => {
     fetchData();
   }, []);
 
+  const handleConfirm = async (value) => {
+    setIsOpen(true);
+    confirmModal(isOpen);
+    setItem(value);
+    itemModal(item);
+  };
+
   return (
     <tbody>
       {data.map((item, index) => {
         return (
           <tr
-            onClick={handleConfirm}
+            onDoubleClick={() => handleConfirm(item.Device_Model)}
             key={index}
             className="relative border-b hover:shadow hover:bg-gray-50"
           >
