@@ -5,7 +5,7 @@ import { GrAdd } from "react-icons/gr";
 
 const SubHeader = ({ subHeader }) => {
   return (
-    <div className="flex flex-row items-center justify-between h-12 px-6 py-2 border-b">
+    <div className="flex flex-row items-center justify-between px-6 py-2 border-b h-14">
       <h1 className="text-sm tracking-wide text-gray-500 font-roboto md:text-base">
         {subHeader}
       </h1>

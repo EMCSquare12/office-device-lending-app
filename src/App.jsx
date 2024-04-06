@@ -3,26 +3,29 @@ import Navbar from "./components/NavBar";
 import Main from "./components/Main";
 import SubHeader from "./components/SubHeader";
 import ConfirmModal from "./components/Modals/ConfirmModal";
-import { useEffect, useState } from "react";
 import EventModal from "./components/Modals/EventModal";
+import { useEffect, useState } from "react";
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
   const [isConfirmModal, setIsConfirmModal] = useState();
   const [item, setItem] = useState();
+  const [isClose, setIsClose] = useState();
 
-  useEffect(() => {
-    console.log(item);
-  }, [item, isConfirmModal]);
+  const handleCloseModal = () => {
+    setIsConfirmModal(false);
+    setIsClose(false);
+  };
   return (
     <div className="relative">
       {isConfirmModal && (
         <ConfirmModal
           item={item}
-          closeModal={(value) => setIsConfirmModal(value)}
+          closeModal={() => setIsConfirmModal(false)}
+          confirmModal={() => setIsClose(true)}
         />
       )}
-      <EventModal />
+      {isClose && <EventModal close={handleCloseModal} />}
       <Header toggle={(value) => setIsOpen(value)} />
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />

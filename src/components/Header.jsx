@@ -12,12 +12,14 @@ const Header = ({ toggle }) => {
   return (
     <div className="grid h-auto grid-cols-2 border border-b md:grid-cols-3 ">
       <div className="flex flex-row items-center h-full gap-5">
-        <button
-          onClick={handleIsOpen}
-          className="flex items-center justify-center w-20 h-full "
-        >
-          <GiHamburgerMenu className="text-gray-500" />
-        </button>
+        <div className="flex items-center justify-center w-20 h-full">
+          <button
+            onClick={handleIsOpen}
+            className="flex items-center justify-center w-20 h-full "
+          >
+            <GiHamburgerMenu className="text-gray-500" />
+          </button>
+        </div>
         <h1 className="text-sm tracking-wide text-gray-500 font-roboto md:text-base">
           Office Device Lending App
         </h1>

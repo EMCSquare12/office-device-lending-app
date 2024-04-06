@@ -1,10 +1,16 @@
 import { useState } from "react";
 
-const ConfirmModal = ({ closeModal, item }) => {
+const ConfirmModal = ({ closeModal, item, confirmModal }) => {
   const [isCloseModal, setIsCloseModal] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const handleIsCloseModal = () => {
     setIsCloseModal(false);
     closeModal(isCloseModal);
+  };
+
+  const handleIsConfirm = () => {
+    setIsConfirm(true);
+    confirmModal(isConfirm);
   };
 
   return (
@@ -19,7 +25,10 @@ const ConfirmModal = ({ closeModal, item }) => {
         </p>
         <hr />
         <div className="flex flex-row justify-end gap-4 p-4">
-          <button className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600">
+          <button
+            onClick={handleIsConfirm}
+            className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600"
+          >
             Yes
           </button>
           <button
