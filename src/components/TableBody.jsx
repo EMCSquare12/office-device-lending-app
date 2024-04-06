@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-
-import { GoKebabHorizontal } from "react-icons/go";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 
 const TableBody = ({ confirmModal, itemModal }) => {
   const [data, setData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState("");
+  const [isOpenOption, setIsOpenOption] = useState(false);
+  const [IdOption, setIdOption] = useState("");
+
+  const handleIsOpenOption = (id) => {
+    setIdOption(id);
+    setIsOpenOption(!isOpenOption);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,30 +44,61 @@ const TableBody = ({ confirmModal, itemModal }) => {
   };
 
   return (
-    <tbody style={{ overflowX: "auto", overflowY: "auto", maxHeight: "400px" }}>
+    <tbody className="w-full table-fixed">
       {data.map((item, index) => {
         return (
           <tr
-            onDoubleClick={() => handleConfirm(item.Device_Model)}
             key={index}
-            className="relative h-10 border-b hover:shadow hover:bg-gray-50"
+            className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
           >
-            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+            <td
+              onDoubleClick={() => handleConfirm(item.Device_Model)}
+              className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+            >
               {item.Device_Model}
             </td>
-            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+            <td
+              onDoubleClick={() => handleConfirm(item.Device_Model)}
+              className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+            >
               {item.ID}
             </td>
-            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+            <td
+              onDoubleClick={() => handleConfirm(item.Device_Model)}
+              className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+            >
               {item.Serial_Number}
             </td>
-            <td className="py-2 w-[20%] text-xs md:text-sm text-left pl-6">
+            <td
+              onDoubleClick={() => handleConfirm(item.Device_Model)}
+              className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+            >
               {item.Status}
             </td>
             <td className="relative right-0 w-10 h-full ">
-              <button className="flex items-center justify-center w-10 h-full text-gray-500 transition-all duration-200 ease-in-out hover:rounded-full hover:shadow hover:bg-gray-200">
+              <button
+                onClick={() => handleIsOpenOption(index)}
+                className="flex items-center justify-center w-10 h-10 text-gray-500 transition-all duration-200 ease-in-out outline-none hover:rounded-full hover:bg-gray-200 "
+              >
                 <BsThreeDotsVertical />
               </button>
+              {isOpenOption && IdOption === index && (
+                <ul className="absolute right-0 z-20 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow top-100">
+                  <li className="w-full">
+                    <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-gray-500 font-roboto hover:bg-gray-200 focus:bg-blue-200 focus:text-blue-500">
+                      <FaEdit />
+                      Edit
+                    </button>
+                  </li>
+                  <hr />
+                  <li className="w-full">
+                    <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-gray-500 font-roboto hover:bg-gray-200 focus:bg-blue-200 focus:text-blue-500">
+                      <MdDeleteForever />
+                      Delete
+                    </button>
+                  </li>
+                </ul>
+              )}
             </td>
           </tr>
         );

@@ -15,7 +15,7 @@ const Header = ({ toggle }) => {
         <div className="flex items-center justify-center w-20 h-full">
           <button
             onClick={handleIsOpen}
-            className="flex items-center justify-center w-20 h-full "
+            className="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-in-out outline-none hover:shadow hover:rounded-full hover:bg-gray-200"
           >
             <GiHamburgerMenu className="text-gray-500" />
           </button>
@@ -26,13 +26,13 @@ const Header = ({ toggle }) => {
       </div>
       <div className="flex flex-row p-4">
         <div className="flex flex-row w-full h-full bg-gray-100 rounded hover:shadow">
-          <button className="flex items-center justify-center h-full text-lg text-gray-500 w-14">
+          <button className="flex items-center justify-center h-full text-lg text-gray-500 outline-none hover:bg-gray-200 w-14">
             <GoSearch className="text-gray-500" />
           </button>
           <input
             type="text"
             placeholder="search item"
-            className="w-full h-12 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
+            className="w-full h-12 px-2 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
           />
         </div>
       </div>

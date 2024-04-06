@@ -12,10 +12,10 @@ const NavBar = ({ toggle, subHeader }) => {
   };
   return (
     <div className="w-auto h-[90vh] border-r">
-      <div className="flex flex-col h-24 gap-2 p-2 border-b mt-[1px]">
+      <div className="flex flex-col h-24 gap-2 p-2 border-b">
         <button
           onClick={() => handleSubHeaderTitle("On-Hand Devices")}
-          className="flex flex-row items-center w-full h-12 px-2 text-xs text-gray-500 transition-all duration-200 ease-in-out rounded md:text-sm font-roboto hover:bg-gray-200 focus:bg-blue-100 focus:text-blue-500"
+          className="flex flex-row items-center w-full h-12 px-2 text-xs text-gray-500 transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto hover:bg-gray-200 focus:bg-blue-100 focus:text-blue-500"
         >
           <span className="flex justify-center w-18 item-center">
             <FaBoxes className="ml-4 mr-4 text-base " />
@@ -26,7 +26,7 @@ const NavBar = ({ toggle, subHeader }) => {
         </button>
         <button
           onClick={() => handleSubHeaderTitle("Devices Lent")}
-          className="flex flex-row items-center w-full h-12 px-2 text-xs text-gray-500 transition-all duration-200 ease-in-out rounded md:text-sm font-roboto hover:bg-gray-200 focus:bg-blue-100 focus:text-blue-500"
+          className="flex flex-row items-center w-full h-12 px-2 text-xs text-gray-500 transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto hover:bg-gray-200 focus:bg-blue-100 focus:text-blue-500"
         >
           <span className="flex justify-center w-18 item-center">
             <FaList className="ml-4 mr-4 text-base " />
