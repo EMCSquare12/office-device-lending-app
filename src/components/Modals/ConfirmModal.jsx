@@ -2,19 +2,19 @@ import { useState } from "react";
 
 const ConfirmModal = ({ closeModal, item, confirmModal }) => {
   const [isCloseModal, setIsCloseModal] = useState(false);
-  const [isConfirm, setIsConfirm] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const handleIsCloseModal = () => {
     setIsCloseModal(false);
     closeModal(isCloseModal);
   };
 
   const handleIsConfirm = () => {
-    setIsConfirm(true);
-    confirmModal(isConfirm);
+    setConfirm(true);
+    confirmModal(confirm);
   };
 
   return (
-    <div className="absolute z-10 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div className="absolute z-20 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
       <div className="w-[30%] flex flex-col bg-white shadow rounded-md">
         <h1 className="p-4 text-base font-medium font-roboto">
           Borrow this Device?

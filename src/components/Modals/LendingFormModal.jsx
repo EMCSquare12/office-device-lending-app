@@ -1,17 +1,17 @@
 import { GrAdd } from "react-icons/gr";
 import { useState } from "react";
 
-const EventModal = ({ close }) => {
-  const [isOpenName, setIsOpenName] = useState(false);
-  const [isOpenEvent, setIsOpenEvent] = useState(false);
-  const [isClose, setIsClose] = useState(false);
+const LendingFormModal = ({ closeLendingForm }) => {
+  const [openName, setOpenName] = useState(false);
+  const [openEvent, setOpenEvent] = useState(false);
+  const [close, setClose] = useState(false);
 
   const handleClose = () => {
-    setIsClose(false);
-    close(isClose);
+    setClose(false);
+    closeLendingForm(close);
   };
   return (
-    <div className="absolute z-10 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
       <div className="w-[50vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
         <h1 className="mb-4 text-xl font-medium text-gray-500 font-roboto">
           Lending Form
@@ -88,20 +88,20 @@ const EventModal = ({ close }) => {
           <div className="relative">
             <div className="flex flex-col gap-2">
               <label
-                className="pl-2 text-sm text-gray-500 font-roboto focus:ring-1"
+                className="pl-2 text-sm text-gray-500 font-roboto whitespace-nowrap"
                 htmlFor="name"
               >
                 Name: <span className="text-red-500">*</span>
               </label>
               <input
-                onClick={() => setIsOpenName(!isOpenName)}
+                onClick={() => setOpenName(!openName)}
                 className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="name"
                 placeholder="Enter your name"
               />
             </div>
-            {isOpenName && (
+            {openName && (
               <ul className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px] z-10">
                 <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
                   adasdas
@@ -136,14 +136,14 @@ const EventModal = ({ close }) => {
                 Event:
               </label>
               <input
-                onClick={() => setIsOpenEvent(!isOpenEvent)}
+                onClick={() => setOpenEvent(!openEvent)}
                 className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="event"
                 placeholder="Enter event name"
               />
             </div>
-            {isOpenEvent && (
+            {openEvent && (
               <ul className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px]">
                 <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
                   adasdas
@@ -200,4 +200,4 @@ const EventModal = ({ close }) => {
     </div>
   );
 };
-export default EventModal;
+export default LendingFormModal;

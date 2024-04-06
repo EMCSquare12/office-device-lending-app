@@ -3,18 +3,20 @@ import Navbar from "./components/NavBar";
 import Main from "./components/Main";
 import SubHeader from "./components/SubHeader";
 import ConfirmModal from "./components/Modals/ConfirmModal";
-import EventModal from "./components/Modals/EventModal";
+import LendingFormModal from "./components/Modals/LendingFormModal";
+import AddItemModal from "./components/Modals/AddItemModal";
 import { useEffect, useState } from "react";
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
   const [isConfirmModal, setIsConfirmModal] = useState();
   const [item, setItem] = useState();
-  const [isClose, setIsClose] = useState();
+  const [closeLendingForm, setCloseLendingForm] = useState();
+  const [openAddItem, setOpenAddItem] = useState();
 
-  const handleCloseModal = () => {
+  const handleCloseLendingForm = () => {
     setIsConfirmModal(false);
-    setIsClose(false);
+    setCloseLendingForm(false);
   };
   return (
     <div className="relative">
@@ -22,15 +24,21 @@ function App() {
         <ConfirmModal
           item={item}
           closeModal={() => setIsConfirmModal(false)}
-          confirmModal={() => setIsClose(true)}
+          confirmModal={() => setCloseLendingForm(true)}
         />
       )}
-      {isClose && <EventModal close={handleCloseModal} />}
+      {closeLendingForm && (
+        <LendingFormModal closeLendingForm={handleCloseLendingForm} />
+      )}
+      {openAddItem && <AddItemModal closeAddItem={() => setOpenAddItem(false)} />}
       <Header toggle={(value) => setIsOpen(value)} />
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
         <div className="flex flex-col w-full">
-          <SubHeader subHeader={subHeader} />
+          <SubHeader
+            subHeader={subHeader}
+            openAddItem={() => setOpenAddItem(true)}
+          />
           <Main
             confirmModal={(value) => setIsConfirmModal(value)}
             itemModal={(value) => setItem(value)}
