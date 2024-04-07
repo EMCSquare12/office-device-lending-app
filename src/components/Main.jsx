@@ -1,11 +1,34 @@
-import TableDeviceLent from "./TableDeviceList";
-import TableBorrowerList from "./TableBorrowerList";
+import TableDeviceList from "./pages/TableDeviceList";
+import TableBorrowerList from "./pages/TableBorrowerList";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 const Main = ({ confirmModal, itemModal }) => {
   return (
     <div className="overflow-y-scroll ">
-      <TableDeviceLent confirmModal={confirmModal} itemModal={itemModal} />
-      <TableBorrowerList />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            index
+            element={
+              <TableDeviceList
+                confirmModal={confirmModal}
+                itemModal={itemModal}
+              />
+            }
+          />
+          <Route
+            path="/deviceList"
+            element={
+              <TableDeviceList
+                confirmModal={confirmModal}
+                itemModal={itemModal}
+              />
+            }
+          />
+          <Route path="/borrowerList" element={<TableBorrowerList />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

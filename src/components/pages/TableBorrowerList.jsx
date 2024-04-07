@@ -1,4 +1,4 @@
-import fetchCSVData from "./data/fetchCSVData";
+import fetchCSVData from "../data/fetchCSVData";
 import { useState, useEffect } from "react";
 
 const TableBorrowerList = () => {
@@ -53,7 +53,10 @@ const TableBorrowerList = () => {
       <tbody className="w-full table-fixed">
         {data.map((item, index) => {
           return (
-            <tr key={index} className="relative h-10 border-b hover:shadow hover:bg-gray-50 ">
+            <tr
+              key={index}
+              className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
+            >
               <td className="w-auto py-2 pl-2 text-xs text-left md:text-sm">
                 {item.Event}
               </td>

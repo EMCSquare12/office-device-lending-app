@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import fetchCSVData from "./data/fetchCSVData";
+import fetchCSVData from "../data/fetchCSVData";
 
 const TableDeviceList = ({ confirmModal, itemModal }) => {
   const [data, setData] = useState([]);

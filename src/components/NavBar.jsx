@@ -1,15 +1,19 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FaList } from "react-icons/fa";
 import { FaBoxes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = ({ toggle, subHeader }) => {
   const [subHeaderTitle, setSubHeaderTitle] = useState();
   const [isSelected, setIsSelected] = useState(true);
+  // const navigate = useNavigate();
+
   const handleSubHeaderTitle = (value) => {
+    const toggleStr = "On-Hand Devices";
     setSubHeaderTitle(value);
     subHeader(value);
-    value === "On-Hand Devices" ? setIsSelected(true) : setIsSelected(false);
-    console.log(subHeaderTitle);
+    setIsSelected(value === toggleStr);
+    // navigate(value === toggleStr ? "/deviceList" : "/borrowerList");
   };
 
   return (
