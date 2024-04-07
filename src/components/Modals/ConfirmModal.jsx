@@ -14,7 +14,7 @@ const ConfirmModal = ({ closeModal, item, confirmModal }) => {
   };
 
   return (
-    <div className="absolute z-20 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
       <div className="w-[30%] flex flex-col bg-white shadow rounded-md">
         <h1 className="p-4 text-base font-medium font-roboto">
           Borrow this Device?

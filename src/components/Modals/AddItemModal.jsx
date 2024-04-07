@@ -8,7 +8,7 @@ const AddItemModal = ({ closeAddItem }) => {
     closeAddItem(isClose);
   };
   return (
-    <div className="absolute z-20 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
       <div className="flex flex-col w-auto gap-4 p-4 bg-white rounded-md shadow">
         <h1 className="text-xl font-medium text-gray-500 font-roboto">
           Add Item

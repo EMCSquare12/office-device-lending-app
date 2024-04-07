@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import fetchCSVData from "./data/fetchCSVData";
 
 const TableDeviceList = ({ confirmModal, itemModal }) => {
   const [data, setData] = useState([]);
@@ -16,25 +17,17 @@ const TableDeviceList = ({ confirmModal, itemModal }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://sheet.best/api/sheets/ce7704fa-7b97-4814-838c-35608e72871e"
-        );
+    const url =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv";
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
-        console.log(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    const handleData = (jsonData) => {
+      setData(jsonData);
     };
 
-    fetchData();
+    fetchCSVData({ csvUrl: url, data: handleData });
   }, []);
+
+  console.log(data);
 
   const handleConfirm = async (value) => {
     setIsOpen(true);
@@ -44,9 +37,9 @@ const TableDeviceList = ({ confirmModal, itemModal }) => {
   };
 
   return (
-    <table className="w-full h-full overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
+    <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
       <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
-        <tr className="bg-white table-fixed ">
+        <tr className="h-full bg-white table-fixed ">
           <th className="py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
             Device Model
           </th>
@@ -63,7 +56,7 @@ const TableDeviceList = ({ confirmModal, itemModal }) => {
         </tr>
       </thead>
 
-      <tbody className="w-full table-fixed">
+      <tbody className="w-full ">
         {data.map((item, index) => {
           return (
             <tr
@@ -111,7 +104,7 @@ const TableDeviceList = ({ confirmModal, itemModal }) => {
                     </li>
                     <hr />
                     <li className="w-full">
-                      <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-gray-500 font-roboto hover:bg-gray-200 focus:bg-blue-200 focus:text-blue-500">
+                      <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-red-500 font-roboto hover:bg-gray-200 focus:bg-red-200 focus:text-red-500">
                         <MdDeleteForever />
                         Delete
                       </button>

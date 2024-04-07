@@ -2,9 +2,9 @@ import Header from "./components/Header";
 import Navbar from "./components/NavBar";
 import Main from "./components/Main";
 import SubHeader from "./components/SubHeader";
-import ConfirmModal from "./components/Modals/ConfirmModal";
-import LendingFormModal from "./components/Modals/LendingFormModal";
-import AddItemModal from "./components/Modals/AddItemModal";
+import ConfirmModal from "./components/modals/ConfirmModal";
+import LendingFormModal from "./components/modals/LendingFormModal";
+import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
 function App() {
   const [isOpen, setIsOpen] = useState();
@@ -30,7 +30,9 @@ function App() {
       {closeLendingForm && (
         <LendingFormModal closeLendingForm={handleCloseLendingForm} />
       )}
-      {openAddItem && <AddItemModal closeAddItem={() => setOpenAddItem(false)} />}
+      {openAddItem && (
+        <AddItemModal closeAddItem={() => setOpenAddItem(false)} />
+      )}
       <Header toggle={(value) => setIsOpen(value)} />
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />

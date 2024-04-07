@@ -4,6 +4,7 @@ import { GoSearch } from "react-icons/go";
 
 const Header = ({ toggle }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // const [isOpenSearch, setIsOpenSearch] = useState(false);
 
   const handleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -24,16 +25,27 @@ const Header = ({ toggle }) => {
           Office Device Lending App
         </h1>
       </div>
-      <div className="flex flex-row p-4">
-        <div className="flex flex-row w-full h-full bg-gray-100 rounded hover:shadow">
+      <div className="flex flex-row p-4 ">
+        <div className="relative flex flex-row w-full h-full bg-gray-100 rounded hover:shadow">
           <button className="flex items-center justify-center h-full text-lg text-gray-500 outline-none hover:bg-gray-200 w-14">
             <GoSearch className="text-gray-500" />
           </button>
           <input
+            // onClick={() => setIsOpenSearch(!isOpenSearch)}
             type="text"
             placeholder="search item"
             className="w-full h-12 px-2 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
           />
+          {/* {isOpenSearch && (
+            <ul className="absolute z-20 w-full py-2 mt-12 text-sm text-gray-500 bg-white border rounded-md shadow">
+              <li className="flex flex-row items-center h-10 gap-2 outline-none font-roboto md:text-base hover:bg-gray-100">
+                <button className="flex items-center justify-center w-12 h-full text-lg text-gray-500 outline-none ">
+                  <GoSearch className="text-gray-500" />
+                </button>
+                TODO
+              </li>
+            </ul>
+          )} */}
         </div>
       </div>
       <div></div>
