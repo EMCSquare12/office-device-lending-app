@@ -50,9 +50,18 @@ function App() {
             />
             <div className="overflow-y-scroll ">
               <Routes>
-                <Route />
                 <Route
                   index
+                  element={
+                    <TableDeviceList
+                      confirmModal={(value) => setIsConfirmModal(value)}
+                      itemModal={(value) => setItem(value)}
+                      searchItem={searchDevice}
+                    />
+                  }
+                />
+                <Route
+                  path="/"
                   element={
                     <TableDeviceList
                       confirmModal={(value) => setIsConfirmModal(value)}
