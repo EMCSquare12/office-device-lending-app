@@ -28,8 +28,11 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
     if (searchItem === undefined || searchItem.trim() === "") {
       setData(originalData);
     } else {
-      const filteredData = originalData.filter((item) =>
-        item.Device_Model.toLowerCase().includes(searchItem.toLowerCase())
+      const filteredData = originalData.filter(
+        (item) =>
+          item.Device_Model.toLowerCase().includes(searchItem.toLowerCase()) ||
+          item.ID.toLowerCase().includes(searchItem.toLowerCase()) ||
+          item.Serial_Number.toLowerCase().includes(searchItem.toLowerCase())
       );
       setData(filteredData);
     }
@@ -39,8 +42,6 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
     setOriginalData(jsonData);
     setData(jsonData);
   };
-
-  console.log(data);
 
   const handleConfirm = async (value) => {
     setIsOpen(true);

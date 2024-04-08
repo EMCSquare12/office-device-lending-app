@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 const NavBar = ({ toggle, subHeader }) => {
   const [subHeaderTitle, setSubHeaderTitle] = useState();
   const [isSelected, setIsSelected] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubHeaderTitle = (value) => {
     const toggleStr = "On-Hand Devices";
     setSubHeaderTitle(value);
     subHeader(value);
     setIsSelected(value === toggleStr);
-    // navigate(value === toggleStr ? "/deviceList" : "/borrowerList");
+    navigate(value === toggleStr ? "/deviceList" : "/borrowerList");
   };
 
   return (

@@ -1,7 +1,40 @@
 import { useState } from "react";
+import axios from "axios";
 
 const AddItemModal = ({ closeAddItem }) => {
   const [isClose, setIsClose] = useState(false);
+  const [addData, setAddData] = useState({
+    id: "",
+    model: "",
+    serialNumber: "",
+    status: "",
+  });
+
+  // const handleAddForm = (e) => {
+  //   const { name, value } = e.target;
+  //   setAddData((prevValue) => ({
+  //     ...prevValue,
+  //     [name]: value,
+  //   }));
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const csvUrl =
+  //     "https://script.google.com/a/macros/liveph.com/s/AKfycbxIZ9iazoQ_UwHCNQfyT6_LU4FNYGfm2XPMvn-jrTPFRCSct0qveQEqqO9rn3x1F-dR/exec";
+  //   try {
+  //     const response = await axios.post(csvUrl, addData);
+  //     console.log(response.data);
+  //     setAddData({
+  //       id: "",
+  //       model: "",
+  //       serialNumber: "",
+  //       status: "",
+  //     });
+  //   } catch (error) {
+  //     console.error("Error adding data:", error);
+  //   }
+  // };
 
   const handleClose = () => {
     setIsClose(false);
@@ -9,7 +42,10 @@ const AddItemModal = ({ closeAddItem }) => {
   };
   return (
     <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
-      <div className="flex flex-col w-auto gap-4 p-4 bg-white rounded-md shadow">
+      <form
+        // onSubmit={handleSubmit}
+        className="flex flex-col w-auto gap-4 p-4 bg-white rounded-md shadow"
+      >
         <h1 className="text-xl font-medium text-gray-500 font-roboto">
           Add Item
         </h1>
@@ -23,6 +59,7 @@ const AddItemModal = ({ closeAddItem }) => {
               ID:
             </label>
             <input
+              name="id"
               type="text"
               id="id"
               className="h-10 p-2 text-sm text-gray-500 bg-gray-100 rounded outline-none font-roboto w-60"
@@ -37,9 +74,12 @@ const AddItemModal = ({ closeAddItem }) => {
               Device Name:
             </label>
             <input
+              name="model"
+              value={addData.model}
               type="text"
               id="item"
               className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1 w-60"
+              // onChange={handleAddForm}
             />
           </div>
 
@@ -51,15 +91,21 @@ const AddItemModal = ({ closeAddItem }) => {
               Serial Number:
             </label>
             <input
+              name="serialNumber"
+              value={addData.serialNumber}
               type="text"
               id="serial-number"
               className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1 w-60"
+              // onChange={handleAddForm}
             />
           </div>
           <hr />
           <div className="flex flex-row items-center justify-end gap-6 ">
-            <button className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600">
-              Yes
+            <button
+              type="submit"
+              className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600"
+            >
+              Add
             </button>
             <button
               onClick={handleClose}
@@ -69,7 +115,7 @@ const AddItemModal = ({ closeAddItem }) => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

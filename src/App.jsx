@@ -41,15 +41,16 @@ function App() {
         search={(value) => setSearchDevice(value)}
       />
       <div className="w-full h-[90vh] flex flex-row">
-        <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
-        <div className="flex flex-col w-full">
-          <SubHeader
-            subHeader={subHeader}
-            openAddItem={() => setOpenAddItem(true)}
-          />
-          <div className="overflow-y-scroll ">
-            <BrowserRouter>
+        <BrowserRouter>
+          <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
+          <div className="flex flex-col w-full">
+            <SubHeader
+              subHeader={subHeader}
+              openAddItem={() => setOpenAddItem(true)}
+            />
+            <div className="overflow-y-scroll ">
               <Routes>
+                <Route />
                 <Route
                   index
                   element={
@@ -72,13 +73,9 @@ function App() {
                 />
                 <Route path="/borrowerList" element={<TableBorrowerList />} />
               </Routes>
-            </BrowserRouter>
+            </div>
           </div>
-          {/* <Main
-            confirmModal={(value) => setIsConfirmModal(value)}
-            itemModal={(value) => setItem(value)}
-          /> */}
-        </div>
+        </BrowserRouter>
       </div>
     </div>
   );
