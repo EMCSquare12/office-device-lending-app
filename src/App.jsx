@@ -1,11 +1,13 @@
 import Header from "./components/Header";
 import Navbar from "./components/NavBar";
-import Main from "./components/Main";
 import SubHeader from "./components/SubHeader";
 import ConfirmModal from "./components/modals/ConfirmModal";
 import LendingFormModal from "./components/modals/LendingFormModal";
 import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
+import TableDeviceList from "./components/pages/TableDeviceList";
+import TableBorrowerList from "./components/pages/TableBorrowerList";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
@@ -13,6 +15,7 @@ function App() {
   const [item, setItem] = useState();
   const [closeLendingForm, setCloseLendingForm] = useState();
   const [openAddItem, setOpenAddItem] = useState();
+  const [searchDevice, setSearchDevice] = useState();
 
   const handleCloseLendingForm = () => {
     setIsConfirmModal(false);
@@ -33,7 +36,10 @@ function App() {
       {openAddItem && (
         <AddItemModal closeAddItem={() => setOpenAddItem(false)} />
       )}
-      <Header toggle={(value) => setIsOpen(value)} />
+      <Header
+        toggle={(value) => setIsOpen(value)}
+        search={(value) => setSearchDevice(value)}
+      />
       <div className="w-full h-[90vh] flex flex-row">
         <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
         <div className="flex flex-col w-full">
@@ -41,10 +47,37 @@ function App() {
             subHeader={subHeader}
             openAddItem={() => setOpenAddItem(true)}
           />
-          <Main
+          <div className="overflow-y-scroll ">
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  index
+                  element={
+                    <TableDeviceList
+                      confirmModal={(value) => setIsConfirmModal(value)}
+                      itemModal={(value) => setItem(value)}
+                      searchItem={searchDevice}
+                    />
+                  }
+                />
+                <Route
+                  path="/deviceList"
+                  element={
+                    <TableDeviceList
+                      confirmModal={(value) => setIsConfirmModal(value)}
+                      itemModal={(value) => setItem(value)}
+                      searchItem={searchDevice}
+                    />
+                  }
+                />
+                <Route path="/borrowerList" element={<TableBorrowerList />} />
+              </Routes>
+            </BrowserRouter>
+          </div>
+          {/* <Main
             confirmModal={(value) => setIsConfirmModal(value)}
             itemModal={(value) => setItem(value)}
-          />
+          /> */}
         </div>
       </div>
     </div>

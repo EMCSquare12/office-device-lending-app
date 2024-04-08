@@ -4,12 +4,13 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import fetchCSVData from "../data/fetchCSVData";
 
-const TableDeviceList = ({ confirmModal, itemModal }) => {
+const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
   const [data, setData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState("");
   const [isOpenOption, setIsOpenOption] = useState(false);
   const [IdOption, setIdOption] = useState("");
+  const [originalData, setOriginalData] = useState([]);
 
   const handleIsOpenOption = (id) => {
     setIdOption(id);
@@ -20,12 +21,24 @@ const TableDeviceList = ({ confirmModal, itemModal }) => {
     const url =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv";
 
-    const handleData = (jsonData) => {
-      setData(jsonData);
-    };
-
     fetchCSVData({ csvUrl: url, data: handleData });
   }, []);
+
+  useEffect(() => {
+    if (searchItem === undefined || searchItem.trim() === "") {
+      setData(originalData);
+    } else {
+      const filteredData = originalData.filter((item) =>
+        item.Device_Model.toLowerCase().includes(searchItem.toLowerCase())
+      );
+      setData(filteredData);
+    }
+  }, [searchItem, originalData]);
+
+  const handleData = (jsonData) => {
+    setOriginalData(jsonData);
+    setData(jsonData);
+  };
 
   console.log(data);
 

@@ -2,10 +2,15 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GoSearch } from "react-icons/go";
 
-const Header = ({ toggle }) => {
+const Header = ({ toggle, search }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isOpenSearch, setIsOpenSearch] = useState(false);
+  const [searchDevice, setSearchDevice] = useState("");
 
+  const handleSearchDevice = (event) => {
+    setSearchDevice(event);
+    search(searchDevice);
+    console.log(searchDevice);
+  };
   const handleIsOpen = () => {
     setIsOpen(!isOpen);
     toggle(!isOpen);
@@ -32,6 +37,8 @@ const Header = ({ toggle }) => {
           </button>
           <input
             // onClick={() => setIsOpenSearch(!isOpenSearch)}
+            value={searchDevice}
+            onChange={(event) => handleSearchDevice(event.target.value)}
             type="text"
             placeholder="search item"
             className="w-full h-12 px-2 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
