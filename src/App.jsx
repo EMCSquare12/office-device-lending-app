@@ -80,7 +80,10 @@ function App() {
                     />
                   }
                 />
-                <Route path="/borrowerList" element={<TableBorrowerList />} />
+                <Route
+                  path="/borrowerList"
+                  element={<TableBorrowerList searchBorrower={searchDevice} />}
+                />
               </Routes>
             </div>
           </div>
