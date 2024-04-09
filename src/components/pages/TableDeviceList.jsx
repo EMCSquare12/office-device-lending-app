@@ -7,12 +7,11 @@ import { RiExpandUpDownFill } from "react-icons/ri";
 
 const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
   const [data, setData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [item, setItem] = useState("");
   const [isOpenOption, setIsOpenOption] = useState(false);
   const [IdOption, setIdOption] = useState("");
   const [originalData, setOriginalData] = useState([]);
   const [isSorted, setIsSorted] = useState(false);
+  const [editable, setEditable] = useState(false);
   const [title, setTitle] = useState({
     model: "Device Model",
     id: "ID",
@@ -67,13 +66,14 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
   };
 
   const handleConfirm = (value) => {
-    setIsOpen(true);
-    setItem(value);
-
     confirmModal(true);
     itemModal(value);
   };
 
+  const handleDelete = (id) => {
+    const newData = [...data].filter((item, index) => id !== index);
+    setData(newData);
+  };
   return (
     <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
       <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
@@ -138,25 +138,45 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                   onDoubleClick={() => handleConfirm(model)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
                 >
-                  {model}
+                  <h1
+                    className="outline-none"
+                    contentEditable={editable && isOpenOption === true}
+                  >
+                    {model}
+                  </h1>
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
                 >
-                  {id}
+                  <h1
+                    className="outline-none"
+                    contentEditable={editable && isOpenOption === true}
+                  >
+                    {id}
+                  </h1>
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
                 >
-                  {serialNumber}
+                  <h1
+                    className="outline-none"
+                    contentEditable={editable && isOpenOption === true}
+                  >
+                    {serialNumber}
+                  </h1>
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
                 >
-                  {status}
+                  <h1
+                    className="outline-none"
+                    contentEditable={editable && isOpenOption === true}
+                  >
+                    {status}
+                  </h1>
                 </td>
                 <td className="relative right-0 w-10 h-full ">
                   <button
@@ -168,14 +188,20 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                   {isOpenOption && IdOption === index && (
                     <ul className="absolute right-0 z-20 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow top-100">
                       <li className="w-full">
-                        <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-gray-500 font-roboto hover:bg-gray-200 focus:bg-blue-200 focus:text-blue-500">
+                        <button
+                          onClick={() => setEditable(true)}
+                          className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-gray-500 font-roboto hover:bg-gray-200 focus:bg-blue-200 focus:text-blue-500"
+                        >
                           <FaEdit />
                           Edit
                         </button>
                       </li>
                       <hr />
                       <li className="w-full">
-                        <button className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-red-500 font-roboto hover:bg-gray-200 focus:bg-red-200 focus:text-red-500">
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-red-500 font-roboto hover:bg-gray-200 focus:bg-red-200 focus:text-red-500"
+                        >
                           <MdDeleteForever />
                           Delete
                         </button>

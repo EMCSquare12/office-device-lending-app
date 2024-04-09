@@ -8,29 +8,39 @@ import { useEffect, useState } from "react";
 import TableDeviceList from "./components/pages/TableDeviceList";
 import TableBorrowerList from "./components/pages/TableBorrowerList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import DeleteModal from "./components/modals/DeleteModal";
+
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
-  const [isConfirmModal, setIsConfirmModal] = useState();
   const [item, setItem] = useState();
-  const [closeLendingForm, setCloseLendingForm] = useState();
+  const [lendingModal, setLendingModal] = useState();
   const [openAddItem, setOpenAddItem] = useState();
   const [searchDevice, setSearchDevice] = useState();
-
+  const [deleteModal, setDeleteModal] = useState();
+  const [confirmModal, setConfirmModal] = useState();
   const handleCloseLendingForm = () => {
-    setIsConfirmModal(false);
-    setCloseLendingForm(false);
+    setConfirmModal(false);
+    setLendingModal(false);
   };
+
   return (
     <div className="relative">
-      {isConfirmModal && (
-        <ConfirmModal
+      {deleteModal && (
+        <DeleteModal
           item={item}
-          closeModal={() => setIsConfirmModal(false)}
-          confirmModal={() => setCloseLendingForm(true)}
+          closeModal={() => setDeleteModal(true)}
+          deleteModal={() => setDeleteModal(false)}
         />
       )}
-      {closeLendingForm && (
+      {confirmModal && (
+        <ConfirmModal
+          item={item}
+          closeModal={() => setConfirmModal(false)}
+          confirmModal={() => setLendingModal(true)}
+        />
+      )}
+      {lendingModal && (
         <LendingFormModal closeLendingForm={handleCloseLendingForm} />
       )}
       {openAddItem && (
@@ -54,7 +64,7 @@ function App() {
                   index
                   element={
                     <TableDeviceList
-                      confirmModal={(value) => setIsConfirmModal(value)}
+                      confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                     />
@@ -64,7 +74,7 @@ function App() {
                   path="/"
                   element={
                     <TableDeviceList
-                      confirmModal={(value) => setIsConfirmModal(value)}
+                      confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                     />
@@ -74,7 +84,7 @@ function App() {
                   path="/deviceList"
                   element={
                     <TableDeviceList
-                      confirmModal={(value) => setIsConfirmModal(value)}
+                      confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                     />
