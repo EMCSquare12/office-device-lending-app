@@ -12,7 +12,7 @@ const LendingFormModal = ({ closeLendingForm }) => {
   };
   return (
     <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
-      <div className="w-[50vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
+      <form className="w-[50vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
         <h1 className="mb-4 text-xl font-medium text-gray-500 font-roboto">
           Lending Form
         </h1>
@@ -196,7 +196,7 @@ const LendingFormModal = ({ closeLendingForm }) => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

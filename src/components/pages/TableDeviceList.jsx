@@ -43,11 +43,12 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
     setData(jsonData);
   };
 
-  const handleConfirm = async (value) => {
+  const handleConfirm = (value) => {
     setIsOpen(true);
-    confirmModal(isOpen);
     setItem(value);
-    itemModal(item);
+
+    confirmModal(true);
+    itemModal(value);
   };
 
   return (
