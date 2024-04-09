@@ -4,17 +4,17 @@ import { FaBoxes } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const NavBar = ({ toggle, subHeader }) => {
-  const deviceRef = useRef();
-  const borrowRef = useRef();
+  const [shTitle, setShTitle] = useState({
+    deviceList: "On-Hand Devices",
+    borrowerList: "Devices Lent",
+  });
   const navigate = useNavigate();
   const location = useLocation();
   const [btnPath, setBtnPath] = useState("");
 
   const handleSubHeaderTitle = (value) => {
     const newValue =
-      value === "deviceList"
-        ? deviceRef.current.textContent
-        : borrowRef.current.textContent;
+      value === "deviceList" ? shTitle.deviceList : shTitle.borrowerList;
     subHeader(newValue);
 
     const route = value === "deviceList" ? "/deviceList" : "/borrowerList";
@@ -40,9 +40,7 @@ const NavBar = ({ toggle, subHeader }) => {
             <FaBoxes className="ml-4 mr-4 text-base " />
           </span>
           {!toggle && (
-            <span ref={deviceRef} className="whitespace-nowrap">
-              On-Hand Devices
-            </span>
+            <span className="whitespace-nowrap">{shTitle.deviceList}</span>
           )}
         </button>
         <button
@@ -57,9 +55,7 @@ const NavBar = ({ toggle, subHeader }) => {
             <FaList className="ml-4 mr-4 text-base " />
           </span>
           {!toggle && (
-            <span ref={borrowRef} className="whitespace-nowrap">
-              Devices Lent
-            </span>
+            <span className="whitespace-nowrap">{shTitle.borrowerList}</span>
           )}
         </button>
       </div>

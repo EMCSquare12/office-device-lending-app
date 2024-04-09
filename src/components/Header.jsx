@@ -8,7 +8,7 @@ const Header = ({ toggle, search }) => {
 
   const handleSearchDevice = (event) => {
     setSearchDevice(event);
-    search(searchDevice);
+    search(event);
     console.log(searchDevice);
   };
   const handleIsOpen = () => {
@@ -40,7 +40,7 @@ const Header = ({ toggle, search }) => {
             value={searchDevice}
             onChange={(event) => handleSearchDevice(event.target.value)}
             type="text"
-            placeholder="search item"
+            placeholder="search item  "
             className="w-full h-12 px-2 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
           />
           {/* {isOpenSearch && (
