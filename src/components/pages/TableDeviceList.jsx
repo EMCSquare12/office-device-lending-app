@@ -13,6 +13,12 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
   const [IdOption, setIdOption] = useState("");
   const [originalData, setOriginalData] = useState([]);
   const [isSorted, setIsSorted] = useState(false);
+  const [title, setTitle] = useState({
+    model: "Device Model",
+    id: "ID",
+    serialNumber: "Serial Number",
+    status: "Status",
+  });
 
   const handleIsOpenOption = (id) => {
     setIdOption(id);
@@ -73,36 +79,36 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
       <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
         <tr className="h-full bg-white table-fixed ">
           <th className="relative items-center py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
-            <h1>Device Model</h1>
+            <h1>{title.model}</h1>
             <button
-              onClick={() => handleSort("Device Model")}
+              onClick={() => handleSort(title.model)}
               className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
             >
               <RiExpandUpDownFill />
             </button>
           </th>
           <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
-            <h1>ID</h1>
+            <h1>{title.id}</h1>
             <button
-              onClick={() => handleSort("ID")}
+              onClick={() => handleSort(title.id)}
               className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
             >
               <RiExpandUpDownFill />
             </button>
           </th>
           <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
-            <h1>Serial Number</h1>
+            <h1>{title.serialNumber}</h1>
             <button
-              onClick={() => handleSort("Serial Number")}
+              onClick={() => handleSort(title.serialNumber)}
               className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
             >
               <RiExpandUpDownFill />
             </button>
           </th>
           <th className="relative w-full py-2 pl-6 text-xs text-left border-r md:text-sm">
-            <h1>Status</h1>
+            <h1>{title.status}</h1>
             <button
-              onClick={() => handleSort("Status")}
+              onClick={() => handleSort(title.status)}
               className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
             >
               <RiExpandUpDownFill />

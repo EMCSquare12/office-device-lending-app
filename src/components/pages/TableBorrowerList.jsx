@@ -1,9 +1,22 @@
 import fetchCSVData from "../data/fetchCSVData";
+import { RiExpandUpDownFill } from "react-icons/ri";
 import { useState, useEffect } from "react";
 
 const TableBorrowerList = ({ searchBorrower }) => {
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
+  const [isSorted, setIsSorted] = useState(false);
+  const [title, setTitle] = useState({
+    event: "Event",
+    timeLent: "Date and Time Lent",
+    timeReturn: "Date and Time Returned",
+    model: "Device Model",
+    id: "ID",
+    serialNumber: "Serial Number",
+    employee: "Employee",
+    status: "Status",
+    notes: "Notes",
+  });
 
   useEffect(() => {
     const url =
@@ -36,40 +49,106 @@ const TableBorrowerList = ({ searchBorrower }) => {
     setOriginalData(jsonData);
     setData(jsonData);
   };
-  // const handleData = (jsonData) => {
-  //   setData(jsonData);
-  // };
+
+  const handleSort = (value) => {
+    setIsSorted(!isSorted);
+    const sortedData = [...data].sort((a, b) => {
+      if (typeof a[value] === "string") {
+        return isSorted
+          ? b[value].localeCompare(a[value])
+          : a[value].localeCompare(b[value]);
+      } else {
+        return isSorted ? b[value] - a[value] : a[value] - b[value];
+      }
+    });
+    setData(sortedData);
+    console.log(data);
+  };
 
   return (
     <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
       <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
         <tr className="bg-white table-fixed ">
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Event
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.event}</h1>
+            <button
+              onClick={() => handleSort(title.event)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Date and Time Lent
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.timeLent}</h1>
+            <button
+              onClick={() => handleSort(title.timeLent)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Date and Time Returned
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.timeReturn}</h1>
+            <button
+              onClick={() => handleSort(title.timeReturn)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Device Model
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.model}</h1>
+            <button
+              onClick={() => handleSort(title.model)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            ID
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.id}</h1>
+            <button
+              onClick={() => handleSort(title.id)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Serial Number
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.serialNumber}</h1>
+            <button
+              onClick={() => handleSort(title.serialNumber)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Employee
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.employee}</h1>
+            <button
+              onClick={() => handleSort(title.employee)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
-            Status
+          <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
+            <h1>{title.status}</h1>
+            <button
+              onClick={() => handleSort(title.status)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
-          <th className="w-full py-2 pl-6 text-xs text-left border-r md:text-sm">
-            Notes
+          <th className="relative w-full py-2 pl-6 text-xs text-left border-r md:text-sm">
+            <h1>{title.notes}</h1>
+            <button
+              onClick={() => handleSort(title.model)}
+              className="absolute right-0 mr-2 text-sm transform -translate-y-1/2 top-1/2"
+            >
+              <RiExpandUpDownFill />
+            </button>
           </th>
         </tr>
       </thead>
