@@ -11,7 +11,7 @@ app.use(cors());
 app.get("/api", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
+      "https://script.google.com/macros/s/AKfycbzznwocUnLkkTVfbYc8VmCF9xz1YxfBnQUuBcFTKTctTi3DyCHwCYiOoJm9hEd_M4iL/exec";
     const response = await axios.get(url);
     res.json(response.data);
   } catch (error) {
