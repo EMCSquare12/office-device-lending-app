@@ -5,7 +5,12 @@ import { MdDeleteForever } from "react-icons/md";
 import fetchCSVData from "../data/fetchCSVData";
 import { RiExpandUpDownFill } from "react-icons/ri";
 
-const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
+const TableDeviceList = ({
+  confirmModal,
+  itemModal,
+  searchItem,
+  deleteModal,
+}) => {
   const [data, setData] = useState([]);
   const [isOpenOption, setIsOpenOption] = useState(false);
   const [IdOption, setIdOption] = useState("");
@@ -22,6 +27,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
   const handleIsOpenOption = (id) => {
     setIdOption(id);
     setIsOpenOption(!isOpenOption);
+    setEditable(false);
   };
 
   useEffect(() => {
@@ -42,6 +48,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
           serialNumber.toLowerCase().includes(searchItem.toLowerCase())
       );
       setData(filteredData);
+      console.log(filteredData)
     }
   }, [searchItem, originalData]);
 
@@ -70,15 +77,15 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
     itemModal(value);
   };
 
-  const handleDelete = (id) => {
-    const newData = [...data].filter((item, index) => id !== index);
-    setData(newData);
-  };
+  // const handleDelete = (id) => {
+  //   const newData = [...data].filter((item, index) => id !== index);
+  //   setData(newData);
+  // };
   return (
     <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
       <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
         <tr className="h-full bg-white table-fixed ">
-          <th className="relative items-center py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
+          <th className="relative items-center py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
             <h1>{title.model}</h1>
             <button
               onClick={() => handleSort(title.model)}
@@ -87,7 +94,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
               <RiExpandUpDownFill />
             </button>
           </th>
-          <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
+          <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
             <h1>{title.id}</h1>
             <button
               onClick={() => handleSort(title.id)}
@@ -96,7 +103,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
               <RiExpandUpDownFill />
             </button>
           </th>
-          <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left pl-6">
+          <th className="relative py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
             <h1>{title.serialNumber}</h1>
             <button
               onClick={() => handleSort(title.serialNumber)}
@@ -105,7 +112,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
               <RiExpandUpDownFill />
             </button>
           </th>
-          <th className="relative w-full py-2 pl-6 text-xs text-left border-r md:text-sm">
+          <th className="relative w-full px-6 py-2 text-xs text-left border-r md:text-sm">
             <h1>{title.status}</h1>
             <button
               onClick={() => handleSort(title.status)}
@@ -136,10 +143,14 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
               >
                 <td
                   onDoubleClick={() => handleConfirm(model)}
-                  className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+                  className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
-                    className="outline-none"
+                    className={`outline-none ${
+                      editable === true && IdOption === index
+                        ? "bg-gray-100 border border-gray-200 "
+                        : ""
+                    }`}
                     contentEditable={editable && isOpenOption === true}
                   >
                     {model}
@@ -147,10 +158,14 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
-                  className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+                  className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
-                    className="outline-none"
+                    className={`outline-none ${
+                      editable === true && IdOption === index
+                        ? "bg-gray-100 border border-gray-200"
+                        : ""
+                    }`}
                     contentEditable={editable && isOpenOption === true}
                   >
                     {id}
@@ -158,10 +173,14 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
-                  className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+                  className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
-                    className="outline-none"
+                    className={`outline-none ${
+                      editable === true && IdOption === index
+                        ? "bg-gray-100 border border-gray-200 "
+                        : ""
+                    }`}
                     contentEditable={editable && isOpenOption === true}
                   >
                     {serialNumber}
@@ -169,10 +188,14 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                 </td>
                 <td
                   onDoubleClick={() => handleConfirm(model)}
-                  className="py-2 w-[20%] text-xs md:text-sm text-left pl-6"
+                  className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
-                    className="outline-none"
+                    className={`outline-none ${
+                      editable === true && IdOption === index
+                        ? "bg-gray-100 border border-gray-200"
+                        : ""
+                    }`}
                     contentEditable={editable && isOpenOption === true}
                   >
                     {status}
@@ -199,7 +222,7 @@ const TableDeviceList = ({ confirmModal, itemModal, searchItem }) => {
                       <hr />
                       <li className="w-full">
                         <button
-                          onClick={() => handleDelete(index)}
+                          onClick={() => deleteModal(true)}
                           className="flex items-center justify-start w-full h-10 gap-2 px-4 text-sm text-red-500 font-roboto hover:bg-gray-200 focus:bg-red-200 focus:text-red-500"
                         >
                           <MdDeleteForever />

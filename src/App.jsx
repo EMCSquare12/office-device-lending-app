@@ -29,8 +29,8 @@ function App() {
       {deleteModal && (
         <DeleteModal
           item={item}
-          closeModal={() => setDeleteModal(true)}
-          deleteModal={() => setDeleteModal(false)}
+          closeModal={() => setDeleteModal(false)}
+          deleteModal={() => setDeleteModal(false)} //Todo
         />
       )}
       {confirmModal && (
@@ -67,6 +67,7 @@ function App() {
                       confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
+                      deleteModal={() => setDeleteModal(true)}
                     />
                   }
                 />
@@ -77,6 +78,7 @@ function App() {
                       confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
+                      deleteModal={() => setDeleteModal(true)}
                     />
                   }
                 />
@@ -87,6 +89,7 @@ function App() {
                       confirmModal={() => setConfirmModal(true)}
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
+                      deleteModal={() => setDeleteModal(true)}
                     />
                   }
                 />

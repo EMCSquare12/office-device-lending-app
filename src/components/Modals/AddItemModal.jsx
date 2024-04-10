@@ -10,31 +10,42 @@ const AddItemModal = ({ closeAddItem }) => {
     status: "",
   });
 
-  // const handleAddForm = (e) => {
-  //   const { name, value } = e.target;
-  //   setAddData((prevValue) => ({
-  //     ...prevValue,
-  //     [name]: value,
-  //   }));
-  // };
+  const handleAddForm = (e) => {
+    const { name, value } = e.target;
+    setAddData((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
+  };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const csvUrl =
-  //     "https://script.google.com/a/macros/liveph.com/s/AKfycbxIZ9iazoQ_UwHCNQfyT6_LU4FNYGfm2XPMvn-jrTPFRCSct0qveQEqqO9rn3x1F-dR/exec";
-  //   try {
-  //     const response = await axios.post(csvUrl, addData);
-  //     console.log(response.data);
-  //     setAddData({
-  //       id: "",
-  //       model: "",
-  //       serialNumber: "",
-  //       status: "",
-  //     });
-  //   } catch (error) {
-  //     console.error("Error adding data:", error);
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const csvUrl = "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(addData));
+    
+    try {
+      const response = await axios({
+        method: 'get',
+        url: csvUrl,
+        params: {
+          callback: 'callbackFunction', // Specify the name of the callback function
+          data: JSON.stringify(addData) // Pass the data as a query parameter
+        },
+        jsonp: true // Enable JSONP mode
+      });
+      console.log(response.data);
+      setAddData({
+        id: "",
+        model: "",
+        serialNumber: "",
+        status: "",
+      });
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  };
+  
 
   const handleClose = () => {
     setIsClose(false);
@@ -43,7 +54,7 @@ const AddItemModal = ({ closeAddItem }) => {
   return (
     <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
       <form
-        // onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col w-auto gap-4 p-4 bg-white rounded-md shadow"
       >
         <h1 className="text-xl font-medium text-gray-500 font-roboto">
@@ -79,7 +90,7 @@ const AddItemModal = ({ closeAddItem }) => {
               type="text"
               id="item"
               className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1 w-60"
-              // onChange={handleAddForm}
+              onChange={handleAddForm}
             />
           </div>
 
@@ -96,7 +107,7 @@ const AddItemModal = ({ closeAddItem }) => {
               type="text"
               id="serial-number"
               className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1 w-60"
-              // onChange={handleAddForm}
+              onChange={handleAddForm}
             />
           </div>
           <hr />
