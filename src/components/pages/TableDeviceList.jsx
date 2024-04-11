@@ -48,7 +48,7 @@ const TableDeviceList = ({
           serialNumber.toLowerCase().includes(searchItem.toLowerCase())
       );
       setData(filteredData);
-      console.log(filteredData)
+      console.log(filteredData);
     }
   }, [searchItem, originalData]);
 

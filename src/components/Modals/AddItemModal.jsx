@@ -20,19 +20,20 @@ const AddItemModal = ({ closeAddItem }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const csvUrl = "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
+    const csvUrl =
+      "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
     const formData = new FormData();
     formData.append("data", JSON.stringify(addData));
-    
+
     try {
       const response = await axios({
-        method: 'get',
+        method: "get",
         url: csvUrl,
         params: {
-          callback: 'callbackFunction', // Specify the name of the callback function
-          data: JSON.stringify(addData) // Pass the data as a query parameter
+          callback: "callbackFunction", // Specify the name of the callback function
+          data: JSON.stringify(addData), // Pass the data as a query parameter
         },
-        jsonp: true // Enable JSONP mode
+        jsonp: true, // Enable JSONP mode
       });
       console.log(response.data);
       setAddData({
@@ -45,7 +46,6 @@ const AddItemModal = ({ closeAddItem }) => {
       console.error("Error adding data:", error);
     }
   };
-  
 
   const handleClose = () => {
     setIsClose(false);
