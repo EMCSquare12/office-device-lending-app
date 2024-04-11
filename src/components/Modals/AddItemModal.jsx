@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 
-const AddItemModal = ({ closeAddItem }) => {
-  const [isClose, setIsClose] = useState(false);
+const AddItemModal = ({ closeAddItem, maxID }) => {
+  const closeRef = useRef();
   const [addData, setAddData] = useState({
     id: "",
     model: "",
@@ -21,6 +21,7 @@ const AddItemModal = ({ closeAddItem }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const csvUrl =
+<<<<<<< HEAD
       "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
     const formData = new FormData();
     formData.append("data", JSON.stringify(addData));
@@ -35,6 +36,17 @@ const AddItemModal = ({ closeAddItem }) => {
         },
         jsonp: true, // Enable JSONP mode
       });
+=======
+      "https://script.google.com/macros/s/AKfycbzznwocUnLkkTVfbYc8VmCF9xz1YxfBnQUuBcFTKTctTi3DyCHwCYiOoJm9hEd_M4iL/exec";
+    const formData = new FormData();
+    formData.append("id", addData.id);
+    formData.append("model", addData.model);
+    formData.append("serialNumber", addData.serialNumber);
+    formData.append("status", addData.status);
+
+    try {
+      const response = await axios.post(csvUrl, formData);
+>>>>>>> bb5361ea425a6831c284c98e326f6c16c816bd64
       console.log(response.data);
       setAddData({
         id: "",
@@ -47,12 +59,13 @@ const AddItemModal = ({ closeAddItem }) => {
     }
   };
 
-  const handleClose = () => {
-    setIsClose(false);
-    closeAddItem(isClose);
-  };
   return (
-    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div
+      onClick={() => {
+        closeRef.current.click();
+      }}
+      className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
+    >
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col w-auto gap-4 p-4 bg-white rounded-md shadow"
@@ -70,6 +83,7 @@ const AddItemModal = ({ closeAddItem }) => {
               ID:
             </label>
             <input
+              value={maxID}
               name="id"
               type="text"
               id="id"
@@ -119,7 +133,8 @@ const AddItemModal = ({ closeAddItem }) => {
               Add
             </button>
             <button
-              onClick={handleClose}
+              ref={closeRef}
+              onClick={() => closeAddItem(false)}
               className="px-6 py-2 text-base text-gray-700 bg-gray-300 rounded hover:bg-gray-400 font-roboto"
             >
               Cancel

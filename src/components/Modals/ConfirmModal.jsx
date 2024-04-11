@@ -1,6 +1,14 @@
+import { useRef } from "react";
+
 const ConfirmModal = ({ closeModal, item, confirmModal }) => {
+  const closeRef = useRef();
   return (
-    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div
+      onClick={() => {
+        closeRef.current.click();
+      }}
+      className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
+    >
       <div className="w-[30%] flex flex-col bg-white shadow rounded-md">
         <h1 className="p-4 text-base font-medium font-roboto">
           Borrow this Device?
@@ -18,6 +26,7 @@ const ConfirmModal = ({ closeModal, item, confirmModal }) => {
             Yes
           </button>
           <button
+            ref={closeRef}
             onClick={() => closeModal(false)}
             className="px-6 py-2 text-base text-gray-700 bg-gray-300 rounded hover:bg-gray-400 font-roboto"
           >

@@ -15,7 +15,7 @@ const ConfirmModal = ({ closeModal, item, deleteModal }) => {
         <div className="flex flex-row justify-end gap-4 p-4">
           <button
             onClick={() => deleteModal(true)}
-            className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600"
+            className="px-6 py-2 text-base text-white bg-red-500 rounded font-roboto hover:bg-red-600"
           >
             Yes
           </button>

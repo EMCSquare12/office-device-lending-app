@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GoSearch } from "react-icons/go";
+import ToolTip from "./Tooltip";
 
 const Header = ({ toggle, search }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchDevice, setSearchDevice] = useState("");
+  const [toolTip, setToolTip] = useState(false);
 
   const handleSearchDevice = (event) => {
     setSearchDevice(event);
@@ -15,15 +17,29 @@ const Header = ({ toggle, search }) => {
     setIsOpen(!isOpen);
     toggle(!isOpen);
   };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setToolTip(false);
+    }, 3000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [toolTip]);
   return (
     <div className="grid h-auto grid-cols-2 border border-b md:grid-cols-3 ">
       <div className="flex flex-row items-center h-full gap-5">
-        <div className="flex items-center justify-center w-20 h-full">
+        <div className="relative flex items-center justify-center w-20 h-full">
           <button
+            onMouseEnter={() => setToolTip(true)}
+            onMouseLeave={() => setToolTip(false)}
             onClick={handleIsOpen}
-            className="flex items-center justify-center w-10 h-10 transition-all duration-200 ease-in-out outline-none hover:shadow hover:rounded-full hover:bg-gray-200"
+            className="relative flex items-center w-10 h-10 transition-all duration-200 ease-in-out outline-none hover:shadow hover:rounded-full hover:bg-gray-200"
           >
-            <GiHamburgerMenu className="text-gray-500" />
+            <GiHamburgerMenu className="absolute text-gray-500 transform -translate-x-1/2 -translate-y-1/2 inset-1/2" />
+            {toolTip && (
+              <ToolTip text={"Toggle Menu"} position={"rigth-0 ml-12"} />
+            )}
           </button>
         </div>
         <h1 className="text-sm tracking-wide text-gray-500 font-roboto md:text-base">

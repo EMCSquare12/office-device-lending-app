@@ -19,6 +19,7 @@ function App() {
   const [searchDevice, setSearchDevice] = useState();
   const [deleteModal, setDeleteModal] = useState();
   const [confirmModal, setConfirmModal] = useState();
+  const [maxID, setMaxID] = useState()
   const handleCloseLendingForm = () => {
     setConfirmModal(false);
     setLendingModal(false);
@@ -44,7 +45,7 @@ function App() {
         <LendingFormModal closeLendingForm={handleCloseLendingForm} />
       )}
       {openAddItem && (
-        <AddItemModal closeAddItem={() => setOpenAddItem(false)} />
+        <AddItemModal closeAddItem={() => setOpenAddItem(false)} maxID={maxID}/>
       )}
       <Header
         toggle={(value) => setIsOpen(value)}
@@ -68,6 +69,8 @@ function App() {
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
+                      maxID={(value) => setMaxID(value)}
+                      
                     />
                   }
                 />
@@ -79,6 +82,7 @@ function App() {
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
+                      maxID={(value) => setMaxID(value)}
                     />
                   }
                 />
@@ -90,6 +94,7 @@ function App() {
                       itemModal={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
+                      maxID={(value) => setMaxID(value)}
                     />
                   }
                 />
