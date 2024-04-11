@@ -10,6 +10,7 @@ const TableDeviceList = ({
   itemModal,
   searchItem,
   deleteModal,
+  maxID,
 }) => {
   const [data, setData] = useState([]);
   const [isOpenOption, setIsOpenOption] = useState(false);
@@ -48,11 +49,14 @@ const TableDeviceList = ({
           serialNumber.toLowerCase().includes(searchItem.toLowerCase())
       );
       setData(filteredData);
-      console.log(filteredData)
+      console.log(filteredData);
     }
   }, [searchItem, originalData]);
 
   const handleData = (jsonData) => {
+    const maxValue = Math.max(...jsonData.map(({ ID: id }) => +id));
+    maxID(+maxValue + 1);
+    console.log(maxValue);
     setOriginalData(jsonData);
     setData(jsonData);
   };

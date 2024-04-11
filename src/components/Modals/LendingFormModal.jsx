@@ -1,12 +1,18 @@
 import { GrAdd } from "react-icons/gr";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const LendingFormModal = ({ closeLendingForm }) => {
   const [openName, setOpenName] = useState(false);
   const [openEvent, setOpenEvent] = useState(false);
+  const closeRef = useRef();
 
   return (
-    <div className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25">
+    <div
+      onClick={() => {
+        closeRef.current.click();
+      }}
+      className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
+    >
       <form className="w-[60vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
         <h1 className="mb-4 text-xl font-medium text-gray-500 font-roboto">
           Lending Form
@@ -184,6 +190,7 @@ const LendingFormModal = ({ closeLendingForm }) => {
               Yes
             </button>
             <button
+              ref={closeRef}
               onClick={() => closeLendingForm(false)}
               className="px-6 py-2 text-base text-gray-700 bg-gray-300 rounded hover:bg-gray-400 font-roboto"
             >
