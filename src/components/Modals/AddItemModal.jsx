@@ -4,10 +4,10 @@ import axios from "axios";
 const AddItemModal = ({ closeAddItem, maxID }) => {
   const closeRef = useRef();
   const [addData, setAddData] = useState({
-    id: "",
     model: "",
+    id: `${maxID}`,
     serialNumber: "",
-    status: "",
+    status: "Available",
   });
 
   const handleAddForm = (e) => {
@@ -19,51 +19,31 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const csvUrl =
-<<<<<<< HEAD
-      "https://script.google.com/a/macros/liveph.com/s/AKfycbwU5dtBwP2VD5OQRaG6QvyxM2_mB4FD2J9OWdyTzmD1Esgp6qiRRc9t7vgoQYLmPyN-/exec";
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(addData));
-
     try {
-      const response = await axios({
-        method: "get",
-        url: csvUrl,
-        params: {
-          callback: "callbackFunction", // Specify the name of the callback function
-          data: JSON.stringify(addData), // Pass the data as a query parameter
+      const response = await fetch("http://localhost:5000/api/device-list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        jsonp: true, // Enable JSONP mode
+        body: JSON.stringify(addData),
       });
-=======
-      "https://script.google.com/macros/s/AKfycbzznwocUnLkkTVfbYc8VmCF9xz1YxfBnQUuBcFTKTctTi3DyCHwCYiOoJm9hEd_M4iL/exec";
-    const formData = new FormData();
-    formData.append("id", addData.id);
-    formData.append("model", addData.model);
-    formData.append("serialNumber", addData.serialNumber);
-    formData.append("status", addData.status);
 
-    try {
-      const response = await axios.post(csvUrl, formData);
->>>>>>> bb5361ea425a6831c284c98e326f6c16c816bd64
-      console.log(response.data);
-      setAddData({
-        id: "",
-        model: "",
-        serialNumber: "",
-        status: "",
-      });
+      if (!response.ok) {
+        throw new Error("Failed to post data");
+      }
+
+      const data = await response.json();
+      console.log("Response:", data);
     } catch (error) {
-      console.error("Error adding data:", error);
+      console.error("Error posting data:", error);
     }
   };
 
   return (
     <div
-      onClick={() => {
-        closeRef.current.click();
-      }}
+      // onClick={() => {
+      //   closeRef.current.click();
+      // }}
       className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
     >
       <form

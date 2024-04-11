@@ -32,10 +32,10 @@ const TableDeviceList = ({
   };
 
   useEffect(() => {
-    const url =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv";
-
-    fetchCSVData({ csvUrl: url, data: handleData });
+    fetchCSVData({
+      csvUrl: "http://localhost:5000/api/device-list",
+      data: handleData,
+    });
   }, []);
 
   useEffect(() => {
