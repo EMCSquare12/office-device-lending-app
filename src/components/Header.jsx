@@ -43,7 +43,7 @@ const Header = ({ toggle, search }) => {
           </button>
         </div>
         <h1 className="text-sm tracking-wide text-gray-500 font-roboto md:text-base">
-          Office Device Lending App
+          Office Device Lending
         </h1>
       </div>
       <div className="flex flex-row p-4 ">

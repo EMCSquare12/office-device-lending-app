@@ -33,7 +33,7 @@ const TableDeviceList = ({
 
   useEffect(() => {
     fetchCSVData({
-      csvUrl: "http://localhost:5000/api/device-list",
+      csvUrl: "http://localhost:5000/api",
       data: handleData,
     });
   }, []);
@@ -54,11 +54,11 @@ const TableDeviceList = ({
   }, [searchItem, originalData]);
 
   const handleData = (jsonData) => {
-    const maxValue = Math.max(...jsonData.map(({ ID: id }) => +id));
+    const maxValue = Math.max(...jsonData.deviceData.map(({ ID: id }) => +id));
     maxID(+maxValue + 1);
     console.log(maxValue);
-    setOriginalData(jsonData);
-    setData(jsonData);
+    setOriginalData(jsonData.deviceData);
+    setData(jsonData.deviceData);
   };
 
   const handleSort = (value) => {

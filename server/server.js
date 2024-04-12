@@ -9,10 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // GET request Device List endpoint
-app.get("/api/device-list", async (req, res) => {
+app.get("/api", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbxACbP_-OYBZaN-VScEOrj83xrPfpcXlCrnPglsDSXEUcz3y2IiT9kf0v8mGn_Y_f0z/exec";
+      "https://script.google.com/macros/s/AKfycbx43anzDHcqbkxp_in_kMxWJviQbxH-pg_cBYYM_SlmVkCrskTc0KEoz5ZytpOVZP7B/exec";
     const response = await axios.get(url);
     res.json(response.data);
   } catch (error) {
@@ -22,12 +22,12 @@ app.get("/api/device-list", async (req, res) => {
 });
 
 // POST request Device List end point
-app.post("/api/device-list", async (req, res) => {
+app.post("/api", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbxACbP_-OYBZaN-VScEOrj83xrPfpcXlCrnPglsDSXEUcz3y2IiT9kf0v8mGn_Y_f0z/exec";
+      "https://script.google.com/macros/s/AKfycbx43anzDHcqbkxp_in_kMxWJviQbxH-pg_cBYYM_SlmVkCrskTc0KEoz5ZytpOVZP7B/exec";
 
-    const response = await axios.post(url, req.body); // Sending the request with req.body as the data
+    const response = await axios.post(url, req.body);
     res.json(response.data);
   } catch (error) {
     console.error("Error posting data:", error);
@@ -35,32 +35,7 @@ app.post("/api/device-list", async (req, res) => {
   }
 });
 
-// GET request Lending List endpoint
-app.get("/api/lending-record", async (req, res) => {
-  try {
-    const url =
-      "https://script.google.com/macros/s/AKfycbyi311c9coIE-1llQscOpcKv0xX5eMGRtaKw4pvASxCyRf5KWeCx_Ji3Qs-V1LL-cYR/exec";
-    const response = await axios.get(url);
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({ error: "Failed to fetch data" });
-  }
-});
 
-// POST request Lending List endpoint
-app.post("/api/lending-record", async (req, res) => {
-  try {
-    const url =
-      "https://script.google.com/macros/s/AKfycbyi311c9coIE-1llQscOpcKv0xX5eMGRtaKw4pvASxCyRf5KWeCx_Ji3Qs-V1LL-cYR/exec";
-
-    const response = await axios.post(url, req.body); // Sending the request with req.body as the data
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error posting data:", error);
-    res.status(500).json({ error: "Failed to post data" });
-  }
-});
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");
