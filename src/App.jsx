@@ -13,13 +13,13 @@ import DeleteModal from "./components/modals/DeleteModal";
 function App() {
   const [isOpen, setIsOpen] = useState();
   const [subHeader, setSubHeader] = useState();
-  const [item, setItem] = useState();
+  const [item, setItem] = useState({});
   const [lendingModal, setLendingModal] = useState();
   const [openAddItem, setOpenAddItem] = useState();
   const [searchDevice, setSearchDevice] = useState();
   const [deleteModal, setDeleteModal] = useState();
   const [confirmModal, setConfirmModal] = useState();
-  const [maxID, setMaxID] = useState()
+  const [maxID, setMaxID] = useState();
   const handleCloseLendingForm = () => {
     setConfirmModal(false);
     setLendingModal(false);
@@ -29,23 +29,33 @@ function App() {
     <div className="relative">
       {deleteModal && (
         <DeleteModal
-          item={item}
+          item={item["Device Model"]}
           closeModal={() => setDeleteModal(false)}
           deleteModal={() => setDeleteModal(false)} //Todo
         />
       )}
       {confirmModal && (
         <ConfirmModal
-          item={item}
+          model={item["Device Model"]}
+          id={item.ID}
+          serialNumber={item["Serial Number"]}
           closeModal={() => setConfirmModal(false)}
           confirmModal={() => setLendingModal(true)}
         />
       )}
       {lendingModal && (
-        <LendingFormModal closeLendingForm={handleCloseLendingForm} />
+        <LendingFormModal
+          model={item["Device Model"]}
+          id={item.ID}
+          serialNumber={item["Serial Number"]}
+          closeLendingForm={handleCloseLendingForm}
+        />
       )}
       {openAddItem && (
-        <AddItemModal closeAddItem={() => setOpenAddItem(false)} maxID={maxID}/>
+        <AddItemModal
+          closeAddItem={() => setOpenAddItem(false)}
+          maxID={maxID}
+        />
       )}
       <Header
         toggle={(value) => setIsOpen(value)}
@@ -66,11 +76,10 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
-                      
                     />
                   }
                 />
@@ -79,7 +88,7 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
@@ -91,7 +100,7 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}

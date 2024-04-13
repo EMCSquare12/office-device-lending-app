@@ -7,7 +7,7 @@ import { RiExpandUpDownFill } from "react-icons/ri";
 
 const TableDeviceList = ({
   confirmModal,
-  itemModal,
+  item,
   searchItem,
   deleteModal,
   maxID,
@@ -33,10 +33,11 @@ const TableDeviceList = ({
 
   useEffect(() => {
     fetchCSVData({
-      csvUrl: "http://localhost:5000/api",
+      csvUrl:
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv",
       data: handleData,
     });
-  }, []);
+  }, [data.ID]);
 
   useEffect(() => {
     if (searchItem === undefined || searchItem.trim() === "") {
@@ -54,11 +55,11 @@ const TableDeviceList = ({
   }, [searchItem, originalData]);
 
   const handleData = (jsonData) => {
-    const maxValue = Math.max(...jsonData.deviceData.map(({ ID: id }) => +id));
+    const maxValue = Math.max(...jsonData.map(({ ID: id }) => id));
     maxID(+maxValue + 1);
     console.log(maxValue);
-    setOriginalData(jsonData.deviceData);
-    setData(jsonData.deviceData);
+    setOriginalData(jsonData);
+    setData(jsonData);
   };
 
   const handleSort = (value) => {
@@ -76,9 +77,11 @@ const TableDeviceList = ({
     console.log(data);
   };
 
-  const handleConfirm = (value) => {
+  const handleConfirm = (index) => {
     confirmModal(true);
-    itemModal(value);
+    const items = data[index];
+    item(items);
+    console.log(items);
   };
 
   // const handleDelete = (id) => {
@@ -146,7 +149,7 @@ const TableDeviceList = ({
                 className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
               >
                 <td
-                  onDoubleClick={() => handleConfirm(model)}
+                  onDoubleClick={() => handleConfirm(index)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
@@ -161,7 +164,7 @@ const TableDeviceList = ({
                   </h1>
                 </td>
                 <td
-                  onDoubleClick={() => handleConfirm(model)}
+                  onDoubleClick={() => handleConfirm(index)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
@@ -176,7 +179,7 @@ const TableDeviceList = ({
                   </h1>
                 </td>
                 <td
-                  onDoubleClick={() => handleConfirm(model)}
+                  onDoubleClick={() => handleConfirm(index)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1
@@ -191,7 +194,7 @@ const TableDeviceList = ({
                   </h1>
                 </td>
                 <td
-                  onDoubleClick={() => handleConfirm(model)}
+                  onDoubleClick={() => handleConfirm(index)}
                   className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                 >
                   <h1

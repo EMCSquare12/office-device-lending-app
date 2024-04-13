@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import axios from "axios";
 
 const AddItemModal = ({ closeAddItem, maxID }) => {
   const closeRef = useRef();
+  const [reload, setReload] = useState(0);
   const [addData, setAddData] = useState({
     model: "",
     id: `${maxID}`,
@@ -21,7 +21,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api", {
+      const response = await fetch("http://localhost:5000/api/device-list", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +35,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
 
       const data = await response.json();
       console.log("Response:", data);
+      setAddData({ model: "", id: maxID, serialNumber: "" });
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -64,15 +65,15 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
               ID:
             </label>
             <input
-              value={maxID}
+              value={addData.id}
               name="id"
               type="text"
               id="id"
               className="h-10 p-2 text-sm text-gray-500 bg-gray-100 rounded outline-none font-roboto w-60"
-              disabled
+              onChange={handleAddForm}
             />
           </div>
-          <div className="flex flex-row items-center justify-between h-10 gap-4">
+          <div className="flex flex-row items-center justify-between h-10 gapss-4">
             <label
               htmlFor="item"
               className="pl-2 text-sm text-gray-500 font-roboto "

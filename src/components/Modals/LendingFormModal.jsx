@@ -1,16 +1,16 @@
 import { GrAdd } from "react-icons/gr";
 import { useRef, useState } from "react";
 
-const LendingFormModal = ({ closeLendingForm }) => {
+const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
   const [openName, setOpenName] = useState(false);
   const [openEvent, setOpenEvent] = useState(false);
   const closeRef = useRef();
 
   return (
     <div
-      onClick={() => {
-        closeRef.current.click();
-      }}
+      // onClick={() => {
+      //   closeRef.current.click();
+      // }}
       className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
     >
       <form className="w-[60vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
@@ -18,9 +18,9 @@ const LendingFormModal = ({ closeLendingForm }) => {
           Lending Form
         </h1>
         <div className="flex flex-col w-full gap-6 p-1 overflow-y-scroll">
-          <div className="relative flex flex-col h-auto w-fit">
-            <div className="flex flex-row w-auto gap-10 h-fit ">
-              <div className="flex flex-row items-center justify-start h-10 gap-4">
+          <div className="relative flex flex-col justify-start h-auto w-fit">
+            <div className="flex flex-row w-auto gap-4 h-fit ">
+              <div className="flex flex-col items-start justify-center h-full gap-2">
                 <label
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="item"
@@ -28,14 +28,27 @@ const LendingFormModal = ({ closeLendingForm }) => {
                   Item:
                 </label>
                 <input
-                  disabled
-                  className="w-full h-full px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
+                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-100 outline-none font-roboto"
                   type="text"
                   id="item"
-                  value={"Laptop"}
+                  value={model}
                 />
               </div>
-              <div className="flex flex-row items-center justify-start h-10 gap-4">
+              <div className="flex flex-col items-start justify-center h-full gap-2">
+                <label
+                  className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
+                  htmlFor="serial-num"
+                >
+                  ID:
+                </label>
+                <input
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
+                  type="text"
+                  id="serial-num"
+                  value={id}
+                />
+              </div>
+              <div className="flex flex-col items-start justify-center h-full gap-2">
                 <label
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="serial-num"
@@ -43,11 +56,10 @@ const LendingFormModal = ({ closeLendingForm }) => {
                   Serial Number:
                 </label>
                 <input
-                  disabled
-                  className="w-full h-full px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
                   type="text"
                   id="serial-num"
-                  value={"0120121"}
+                  value={serialNumber}
                 />
               </div>
             </div>

@@ -20,7 +20,8 @@ const TableBorrowerList = ({ searchBorrower }) => {
 
   useEffect(() => {
     fetchCSVData({
-      csvUrl: "http://localhost:5000/api",
+      csvUrl:
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=1313317968&single=true&output=csv",
       data: handleData,
     });
   }, []);
@@ -46,8 +47,8 @@ const TableBorrowerList = ({ searchBorrower }) => {
   }, [searchBorrower, originalData]);
 
   const handleData = (jsonData) => {
-    setOriginalData(jsonData.lendingData);
-    setData(jsonData.lendingData);
+    setOriginalData(jsonData);
+    setData(jsonData);
   };
 
   const handleSort = (value) => {
