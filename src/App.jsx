@@ -1,7 +1,5 @@
 import Header from "./components/Header";
 import Navbar from "./components/NavBar";
-import SubHeader from "./components/SubHeader";
-import ConfirmModal from "./components/modals/ConfirmModal";
 import LendingFormModal from "./components/modals/LendingFormModal";
 import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
@@ -11,19 +9,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DeleteModal from "./components/modals/DeleteModal";
 
 function App() {
-  const [isOpen, setIsOpen] = useState();
-  const [subHeader, setSubHeader] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState({});
-  const [lendingModal, setLendingModal] = useState();
-  const [openAddItem, setOpenAddItem] = useState();
+  const [openAddItem, setOpenAddItem] = useState(false);
   const [searchDevice, setSearchDevice] = useState();
-  const [deleteModal, setDeleteModal] = useState();
-  const [confirmModal, setConfirmModal] = useState();
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [maxID, setMaxID] = useState();
-  const handleCloseLendingForm = () => {
-    setConfirmModal(false);
-    setLendingModal(false);
-  };
 
   return (
     <div className="relative">
@@ -34,23 +26,7 @@ function App() {
           deleteModal={() => setDeleteModal(false)} //Todo
         />
       )}
-      {confirmModal && (
-        <ConfirmModal
-          model={item["Device Model"]}
-          id={item.ID}
-          serialNumber={item["Serial Number"]}
-          closeModal={() => setConfirmModal(false)}
-          confirmModal={() => setLendingModal(true)}
-        />
-      )}
-      {lendingModal && (
-        <LendingFormModal
-          model={item["Device Model"]}
-          id={item.ID}
-          serialNumber={item["Serial Number"]}
-          closeLendingForm={handleCloseLendingForm}
-        />
-      )}
+
       {openAddItem && (
         <AddItemModal
           closeAddItem={() => setOpenAddItem(false)}
@@ -63,12 +39,12 @@ function App() {
       />
       <div className="w-full h-[90vh] flex flex-row">
         <BrowserRouter>
-          <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
+          <Navbar toggle={isOpen} />
           <div className="flex flex-col w-full">
-            <SubHeader
+            {/* <SubHeader
               subHeader={subHeader}
               openAddItem={() => setOpenAddItem(true)}
-            />
+            /> */}
             <div className="overflow-y-scroll ">
               <Routes>
                 <Route
@@ -80,6 +56,7 @@ function App() {
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
@@ -92,6 +69,7 @@ function App() {
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
@@ -104,12 +82,23 @@ function App() {
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
                 <Route
                   path="/borrowerList"
                   element={<TableBorrowerList searchBorrower={searchDevice} />}
+                />
+                <Route
+                  path="/lending-from"
+                  element={
+                    <LendingFormModal
+                      model={item["Device Model"]}
+                      id={item.ID}
+                      serialNumber={item["Serial Number"]}
+                    />
+                  }
                 />
               </Routes>
             </div>

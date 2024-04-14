@@ -4,23 +4,17 @@ import { FaEdit } from "react-icons/fa";
 import { GrAdd } from "react-icons/gr";
 import { useEffect, useState } from "react";
 
-const SubHeader = ({ subHeader, openAddItem }) => {
-  const [isAddItem, setIsAddItem] = useState(false);
-  const [onHandeDevicesStr, setHandleDeviceStr] = useState("On-Hand Devices");
-
-  const handleOpenAddItem = () => {
-    setIsAddItem(true);
-    openAddItem(isAddItem);
-  };
-
+const SubHeader = ({ openAddItem }) => {
   return (
     <div className="flex flex-row items-center justify-between w-full h-12 px-6 py-2 border-b">
       <h1 className="flex items-center h-12 text-sm tracking-wide text-gray-500 font-roboto md:text-base">
-        {subHeader === undefined ? onHandeDevicesStr : subHeader}
+        On-Hand Devices
       </h1>
       <div className="flex flex-row items-center justify-center h-12 gap-4 py-2">
         <button
-          onClick={handleOpenAddItem}
+          onClick={() => {
+            openAddItem(true);
+          }}
           className="flex flex-row items-center justify-center h-8 gap-1 px-2 text-sm text-white transition-all duration-200 ease-in-out bg-blue-500 rounded outline-none focus:bg-blue-600 hover:bg-blue-600 md:text-base"
         >
           <GrAdd className="text-white " />
