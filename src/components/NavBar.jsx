@@ -36,13 +36,15 @@ const NavBar = ({ toggle }) => {
   };
   return (
     <div className="w-auto h-[90vh] border-r">
-      <div className="flex flex-col h-24 gap-2 p-2 border-b">
+      <div className="flex flex-col h-24 gap-2 p-2 border-b ">
         <button
           onMouseEnter={() => handleopenToolTip("deviceList")}
           onMouseLeave={() => setToolTip(false)}
           onClick={() => handleToggleRoute("deviceList")}
           className={`relative flex flex-row items-center w-full h-12 px-2 text-xs transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto ${
-            btnPath === "/deviceList" || btnPath === "/"
+            btnPath === "/deviceList" ||
+            btnPath === "/" ||
+            btnPath === "/deviceList/lending-form"
               ? "bg-blue-100 text-blue-500"
               : "text-gray-500 hover:bg-gray-200 hover:text-gray-500"
           }`}
@@ -52,7 +54,7 @@ const NavBar = ({ toggle }) => {
           </span>
           {!toggle && (
             <span className="w-full text-left whitespace-nowrap">
-              On Hande Device
+              On Hand Device
             </span>
           )}
           {toolTip && tooltipId === "deviceList" && toggle && (
@@ -74,7 +76,7 @@ const NavBar = ({ toggle }) => {
           </span>
           {!toggle && (
             <span className="w-full text-left whitespace-nowrap">
-              Lending Record
+              Device Lent
             </span>
           )}
           {toolTip && tooltipId === "borrower" && toggle && (

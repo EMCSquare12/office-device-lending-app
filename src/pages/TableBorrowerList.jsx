@@ -9,8 +9,8 @@ const TableBorrowerList = ({ searchBorrower }) => {
   const [isSorted, setIsSorted] = useState(false);
   const [title, setTitle] = useState({
     event: "Event",
-    timeLent: "Date and Time Lent",
-    timeReturn: "Date and Time Returned",
+    timeLent: "Date Lent",
+    timeReturn: "Date Return",
     model: "Device Model",
     id: "ID",
     serialNumber: "Serial Number",
@@ -69,9 +69,9 @@ const TableBorrowerList = ({ searchBorrower }) => {
 
   return (
     <>
-      <SubHeader title={"Lending Record"}></SubHeader>
+      <SubHeader title={"Device Lent"}></SubHeader>
       <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
-        <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
+        <thead className="sticky z-10 w-full h-12 bg-white shadow top-12 ">
           <tr className="bg-white table-fixed ">
             <th className="relative py-2 w-[10%] border-r text-xs md:text-sm text-left pl-6">
               <h1>{title.event}</h1>

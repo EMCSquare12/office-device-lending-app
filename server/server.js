@@ -36,10 +36,10 @@ app.post("/api/device-list", async (req, res) => {
 });
 
 // POST request Lending List end point
-app.post("/api/device-list", async (req, res) => {
+app.post("/api/lending-form", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbzeSIfSPpYkOzDUhiADviYya3lZo8mugRRf9aByaC7DuhDsegoho2xvxe-OM67LoTAr/exec";
+      "https://script.google.com/macros/s/AKfycbyvUPMJLttAeK1MDYgO7cm9FLT0DU0rcPKth0cJT6q9GOXdCMbq5gg2igetk8GLURzI/exec";
 
     const response = await axios.post(url, req.body);
     res.json(response.data);

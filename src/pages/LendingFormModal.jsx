@@ -1,17 +1,87 @@
 import { GrAdd } from "react-icons/gr";
 import { useRef, useState } from "react";
-import SubHeader from "./SubHeader";
+import SubHeader from "../components/SubHeader";
 
-const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
+const formatDateLent = (date) => {
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+const formatDateReturn = (date) => {
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + 7);
+  const month = String(newDate.getMonth() + 1).padStart(2, "0");
+  const day = String(newDate.getDate()).padStart(2, "0");
+  const year = newDate.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+const LendingFormModal = ({
+  model,
+  id,
+  serialNumber,
+  successAlert,
+  dangerAlert,
+}) => {
   const [openName, setOpenName] = useState(false);
   const [openEvent, setOpenEvent] = useState(false);
-  const closeRef = useRef();
+  const [addData, setAddData] = useState({
+    event: "",
+    dateLent: formatDateLent(new Date()) || "",
+    model: `${model}` || "",
+    id: `${id}` || "",
+    serialNumber: `${serialNumber}` || "",
+    employee: "",
+    status: "Pending Return",
+    dateReturn: formatDateReturn(new Date()) || "",
+    notes: "",
+  });
+  const [danger, setDanger] = useState(false);
+
+  const handleAddForm = (e) => {
+    const { name, value } = e.target;
+    setAddData((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (addData.name !== undefined) {
+      try {
+        const response = await fetch("http://localhost:5000/api/lending-form", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(addData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to post data");
+        }
+        const data = await response.json();
+        console.log("Response:", data);
+        successAlert(true);
+      } catch (error) {
+        console.error("Error posting data:", error);
+        dangerAlert({ alert: true, message: `Error posting data: ${error}` });
+      }
+    } else {
+      console.log("Failed to load Data");
+      dangerAlert({ alert: true, message: "Please fill the name input" });
+      setDanger(true);
+    }
+  };
 
   return (
     <>
       <SubHeader title="Lending Form"></SubHeader>
-      <div className="flex flex-col w-full h-auto gap-6 px-20 py-5 bg-white">
-        <form className="flex flex-col w-full h-full gap-6 p-1">
+
+      <div className="relative flex flex-col items-center justify-center w-full h-auto gap-6 py-5 bg-white">
+        <form className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow">
           <div className="relative flex flex-col justify-start h-full w-fit">
             <div className="flex flex-row w-auto h-full gap-4 ">
               <div className="flex flex-col items-start justify-center h-full gap-2">
@@ -22,10 +92,12 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   Item:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-100 border-gray-300 outline-none font-roboto"
+                  name="model"
+                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="item"
-                  value={model}
+                  value={addData.model}
+                  onChange={handleAddForm}
                 />
               </div>
               <div className="flex flex-col items-start justify-center h-full gap-2">
@@ -36,10 +108,12 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   ID:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 border-gray-300 outline-none font-roboto"
+                  name="id"
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="serial-num"
-                  value={id}
+                  value={addData.id}
+                  onChange={handleAddForm}
                 />
               </div>
               <div className="flex flex-col items-start justify-center h-full gap-2">
@@ -50,10 +124,12 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   Serial Number:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 border-gray-300 outline-none font-roboto"
+                  name="serialNumber"
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="serial-num"
-                  value={serialNumber}
+                  value={addData.serialNumber}
+                  onChange={handleAddForm}
                 />
               </div>
             </div>
@@ -63,7 +139,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
               </button>
             </div>
           </div>
-          <hr />
+          <div className="h-[1px] bg-gray-200"></div>
           <div className="grid grid-cols-2 gap-10">
             <div className="flex flex-row items-center justify-start h-10 gap-4">
               <label
@@ -73,9 +149,12 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 Date Borrowed: <span className="text-red-500">*</span>
               </label>
               <input
+                value={addData.dateLent}
+                name="dateLent"
                 className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-2 "
                 type="date"
                 id="date-borrowed"
+                onChange={handleAddForm}
               />
             </div>
             <div className="flex flex-row items-center justify-start h-10 gap-4">
@@ -83,12 +162,15 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                 htmlFor="date-return"
               >
-                Date Return: <span className="text-red-500">*</span>
+                Date Return:
               </label>
               <input
+                value={addData.dateReturn}
+                name="dateReturn"
                 className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="date"
                 id="date-return"
+                onChange={handleAddForm}
               />
             </div>
           </div>
@@ -101,11 +183,19 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 Name: <span className="text-red-500">*</span>
               </label>
               <input
-                onClick={() => setOpenName(!openName)}
-                className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
+                name="employee"
+                onClick={() => {
+                  setOpenName(!openName), setDanger(false);
+                }}
+                className={`h-10 p-2 text-sm text-gray-500 border  rounded outline-none font-roboto  ${
+                  danger
+                    ? "border-red-500 placeholder:text-red-500"
+                    : "border-gray-300 focus:ring-1"
+                }`}
                 type="text"
                 id="name"
                 placeholder="Enter your name"
+                onChange={handleAddForm}
               />
             </div>
             {openName && (
@@ -143,11 +233,13 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 Event:
               </label>
               <input
+                name="event"
                 onClick={() => setOpenEvent(!openEvent)}
                 className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="event"
                 placeholder="Enter event name"
+                onChange={handleAddForm}
               />
             </div>
             {openEvent && (
@@ -185,22 +277,20 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
               Notes
             </label>
             <textarea
+              name=" notes"
               rows="4"
               className="w-full h-full p-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
               id="notes"
               placeholder="Enter Notes"
+              onChange={handleAddForm}
             ></textarea>
           </div>
           <div className="flex flex-row items-center justify-end gap-6">
-            <button className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600">
-              Yes
-            </button>
             <button
-              ref={closeRef}
-              onClick={() => closeLendingForm(false)}
-              className="px-6 py-2 text-base text-gray-700 bg-gray-300 rounded hover:bg-gray-400 font-roboto"
+              onClick={handleSubmit}
+              className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600"
             >
-              Cancel
+              Send
             </button>
           </div>
         </form>

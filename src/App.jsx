@@ -1,12 +1,14 @@
 import Header from "./components/Header";
 import Navbar from "./components/NavBar";
-import LendingFormModal from "./components/LendingFormModal";
+import LendingFormModal from "./pages/LendingFormModal";
 import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
 import TableDeviceList from "./pages/TableDeviceList";
 import TableBorrowerList from "./pages/TableBorrowerList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DeleteModal from "./components/modals/DeleteModal";
+import SuccessAlert from "./components/SuccessAlert";
+import DangerAlert from "./components/DangerAlert";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,9 +18,27 @@ function App() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [maxID, setMaxID] = useState();
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [dangerAlert, setDangerAlert] = useState({
+    alert:false,
+    message:""
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSuccessAlert(false);
+      setDangerAlert(false);
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [successAlert, dangerAlert]);
 
   return (
     <div className="relative">
+      {successAlert && <SuccessAlert message={"Item Borrowed Successfully!"} />}
+      {dangerAlert.alert && <DangerAlert message={dangerAlert.message} />}
       {deleteModal && (
         <DeleteModal
           item={item["Device Model"]}
@@ -97,6 +117,8 @@ function App() {
                       model={item["Device Model"]}
                       id={item.ID}
                       serialNumber={item["Serial Number"]}
+                      successAlert={(value) => setSuccessAlert(value)}
+                      dangerAlert={(value) => setDangerAlert(value)}
                     />
                   }
                 />
