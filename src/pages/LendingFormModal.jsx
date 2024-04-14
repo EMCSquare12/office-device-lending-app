@@ -1,6 +1,7 @@
 import { GrAdd } from "react-icons/gr";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import SubHeader from "../components/SubHeader";
+import fetchCSVData from "../components/data/fetchCSVData";
 
 const formatDateLent = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -26,6 +27,11 @@ const LendingFormModal = ({
 }) => {
   const [openName, setOpenName] = useState(false);
   const [openEvent, setOpenEvent] = useState(false);
+  const [danger, setDanger] = useState(false);
+  const [data, setData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
+  const closeRef = useRef(null);
+
   const [addData, setAddData] = useState({
     event: "",
     dateLent: formatDateLent(new Date()) || "",
@@ -37,7 +43,20 @@ const LendingFormModal = ({
     dateReturn: formatDateReturn(new Date()) || "",
     notes: "",
   });
-  const [danger, setDanger] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (closeRef.current && !closeRef.current.contains(event.target)) {
+        setOpenName(false);
+        setOpenEvent(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openName, openEvent]);
 
   const handleAddForm = (e) => {
     const { name, value } = e.target;
@@ -76,6 +95,42 @@ const LendingFormModal = ({
     }
   };
 
+  useEffect(() => {
+    if (addData.employee === undefined || addData.employee === "") {
+      setData(originalData);
+    } else {
+      const filteredData = originalData.filter(
+        ({
+          "FIRST NAME": firstName,
+          "LAST NAME": lastName,
+          POSITION: position,
+        }) =>
+          firstName.toLowerCase().includes(addData.employee.toLowerCase()) ||
+          lastName.toLowerCase().includes(addData.employee.toLowerCase()) ||
+          position.toLowerCase().includes(addData.employee.toLowerCase())
+      );
+      setData(filteredData);
+      console.log(filteredData);
+    }
+  }, [addData.employee, originalData]);
+
+  useEffect(() => {
+    fetchCSVData({
+      csvUrl:
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vS49nZFmBeOjvS6RWdQvh52klT6WfsKRtUVeZTZ5gJnbagupJX2PdvgvTgA2XrEuFyacm9e0XBBSLfF/pub?gid=0&single=true&output=csv",
+      data: handleData,
+    });
+  }, []);
+
+  const handleData = (jsonData) => {
+    setOriginalData(jsonData);
+    setData(jsonData);
+  };
+
+  const handleList = (value) => {
+    setAddData((prev) => ({ ...prev, employee: value }));
+    console.log(value);
+  };
   return (
     <>
       <SubHeader title="Lending Form"></SubHeader>
@@ -183,6 +238,7 @@ const LendingFormModal = ({
                 Name: <span className="text-red-500">*</span>
               </label>
               <input
+                value={addData.employee}
                 name="employee"
                 onClick={() => {
                   setOpenName(!openName), setDanger(false);
@@ -199,28 +255,29 @@ const LendingFormModal = ({
               />
             </div>
             {openName && (
-              <ul className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px] z-10">
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
+              <ul
+                ref={closeRef}
+                className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px] z-10"
+              >
+                {data.map(
+                  (
+                    {
+                      "FIRST NAME": firstName,
+                      "LAST NAME": lastName,
+                      POSITION: position,
+                    },
+                    index
+                  ) => (
+                    <li
+                      onClick={() => handleList(`${firstName} ${lastName}`)}
+                      key={index}
+                      className="flex flex-row items-center h-10 gap-2 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                    >
+                      {`${firstName} ${lastName} `}
+                      <span className="text-xs text-gray-400">{`(${position})`}</span>
+                    </li>
+                  )
+                )}
               </ul>
             )}
           </div>
@@ -233,6 +290,7 @@ const LendingFormModal = ({
                 Event:
               </label>
               <input
+                value={addData.event}
                 name="event"
                 onClick={() => setOpenEvent(!openEvent)}
                 className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
@@ -243,7 +301,10 @@ const LendingFormModal = ({
               />
             </div>
             {openEvent && (
-              <ul className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px]">
+              <ul
+                ref={closeRef}
+                className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px]"
+              >
                 <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
                   adasdas
                 </li>
