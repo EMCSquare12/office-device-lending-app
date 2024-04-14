@@ -1,6 +1,7 @@
-import fetchCSVData from "../data/fetchCSVData";
+import fetchCSVData from "../components/data/fetchCSVData";
 import { RiExpandUpDownFill } from "react-icons/ri";
 import { useState, useEffect } from "react";
+import SubHeader from "../components/SubHeader";
 
 const TableBorrowerList = ({ searchBorrower }) => {
   const [data, setData] = useState([]);
@@ -68,6 +69,7 @@ const TableBorrowerList = ({ searchBorrower }) => {
 
   return (
     <>
+      <SubHeader title={"Lending Record"}></SubHeader>
       <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
         <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
           <tr className="bg-white table-fixed ">

@@ -1,10 +1,10 @@
 import Header from "./components/Header";
 import Navbar from "./components/NavBar";
-import LendingFormModal from "./components/modals/LendingFormModal";
+import LendingFormModal from "./components/LendingFormModal";
 import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
-import TableDeviceList from "./components/pages/TableDeviceList";
-import TableBorrowerList from "./components/pages/TableBorrowerList";
+import TableDeviceList from "./pages/TableDeviceList";
+import TableBorrowerList from "./pages/TableBorrowerList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DeleteModal from "./components/modals/DeleteModal";
 
@@ -91,7 +91,7 @@ function App() {
                   element={<TableBorrowerList searchBorrower={searchDevice} />}
                 />
                 <Route
-                  path="/lending-from"
+                  path="/deviceList/lending-form"
                   element={
                     <LendingFormModal
                       model={item["Device Model"]}

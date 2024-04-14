@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import fetchCSVData from "../data/fetchCSVData";
+import fetchCSVData from "../components/data/fetchCSVData";
 import { RiExpandUpDownFill } from "react-icons/ri";
-import SubHeader from "../SubHeader";
+import SubHeader from "../components/SubHeader";
+import { useNavigate } from "react-router-dom";
+import { IoFilter } from "react-icons/io5";
+import { IoCheckboxOutline } from "react-icons/io5";
+import { GrAdd } from "react-icons/gr";
 
 const TableDeviceList = ({
   confirmModal,
@@ -20,6 +24,7 @@ const TableDeviceList = ({
   const [originalData, setOriginalData] = useState([]);
   const [isSorted, setIsSorted] = useState(false);
   const [editable, setEditable] = useState(false);
+  const navigate = useNavigate();
   const [title, setTitle] = useState({
     model: "Device Model",
     id: "ID",
@@ -79,10 +84,11 @@ const TableDeviceList = ({
     console.log(data);
   };
 
-  const handleConfirm = (index) => {
+  const handleConfirmItem = (index) => {
     confirmModal(true);
     const items = data[index];
     item(items);
+    navigate("lending-form");
     console.log(items);
   };
 
@@ -92,13 +98,34 @@ const TableDeviceList = ({
   // };
   return (
     <>
-      <SubHeader
-        openAddItem={() => {
-          openAddItem(true);
-        }}
-      />
+      <SubHeader title={"On Hand Device"}>
+        <div className="flex flex-row items-center justify-center h-12 gap-4 py-2">
+          <button
+            onClick={() => {
+              openAddItem(true);
+            }}
+            className="flex flex-row items-center justify-center h-8 gap-1 px-2 text-sm text-white transition-all duration-200 ease-in-out bg-blue-500 rounded outline-none focus:bg-blue-600 hover:bg-blue-600 md:text-base"
+          >
+            <GrAdd className="text-white " />
+            Add
+          </button>
+          <div className="h-full w-[1px] bg-gray-300"></div>
+          <div className="flex flex-row items-center justify-center gap-4">
+            <button className="flex items-center justify-center w-8 h-8 transition-all duration-200 ease-in-out outline-none focus:bg-gray-200 hover:bg-gray-200 hover:rounded-full hover:shadow focus:shadow focus:rounded-full">
+              <IoFilter className="text-lg text-none" />
+            </button>
+            <button className="flex items-center justify-center w-8 h-8 transition-all duration-200 ease-in-out outline-none focus:bg-gray-200 hover:bg-gray-200 hover:rounded-full hover:shadow focus:shadow focus:rounded-full">
+              <IoCheckboxOutline className="text-lg text-gray-500 " />
+            </button>
+            <button className="flex items-center justify-center w-8 h-8 transition-all duration-200 ease-in-out outline-none hover:shadow focus:shadow focus:bg-gray-200 hover:bg-gray-200 hover:rounded-full focus:rounded-full">
+              <FaEdit className="text-lg text-gray-500 " />
+            </button>
+          </div>
+        </div>
+      </SubHeader>
+
       <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
-        <thead className="sticky top-0 z-10 w-full h-12 bg-white shadow ">
+        <thead className="sticky z-20 w-full h-12 bg-white shadow top-12 ">
           <tr className="h-full bg-white table-fixed ">
             <th className="relative items-center py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
               <h1>{title.model}</h1>
@@ -157,7 +184,7 @@ const TableDeviceList = ({
                   className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
                 >
                   <td
-                    onDoubleClick={() => handleConfirm(index)}
+                    onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -172,7 +199,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirm(index)}
+                    onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -187,7 +214,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirm(index)}
+                    onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -202,7 +229,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirm(index)}
+                    onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -224,7 +251,7 @@ const TableDeviceList = ({
                       <BsThreeDotsVertical />
                     </button>
                     {isOpenOption && IdOption === index && (
-                      <ul className="absolute right-0 z-20 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow top-100">
+                      <ul className="absolute right-0 z-10 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow top-100">
                         <li className="w-full">
                           <button
                             onClick={() => setEditable(true)}

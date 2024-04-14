@@ -1,5 +1,6 @@
 import { GrAdd } from "react-icons/gr";
 import { useRef, useState } from "react";
+import SubHeader from "./SubHeader";
 
 const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
   const [openName, setOpenName] = useState(false);
@@ -7,19 +8,12 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
   const closeRef = useRef();
 
   return (
-    <div
-      // onClick={() => {
-      //   closeRef.current.click();
-      // }}
-      className="absolute z-30 flex items-center justify-center w-screen h-screen bg-black bg-opacity-25"
-    >
-      <form className="w-[60vw] h-[80vh]  bg-white rounded-md shadow gap-6 flex flex-col px-10 py-5">
-        <h1 className="mb-4 text-xl font-medium text-gray-500 font-roboto">
-          Lending Form
-        </h1>
-        <div className="flex flex-col w-full gap-6 p-1 overflow-y-scroll">
-          <div className="relative flex flex-col justify-start h-auto w-fit">
-            <div className="flex flex-row w-auto gap-4 h-fit ">
+    <>
+      <SubHeader title="Lending Form"></SubHeader>
+      <div className="flex flex-col w-full h-auto gap-6 px-20 py-5 bg-white">
+        <form className="flex flex-col w-full h-full gap-6 p-1">
+          <div className="relative flex flex-col justify-start h-full w-fit">
+            <div className="flex flex-row w-auto h-full gap-4 ">
               <div className="flex flex-col items-start justify-center h-full gap-2">
                 <label
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
@@ -28,7 +22,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   Item:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-100 outline-none font-roboto"
+                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-100 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="item"
                   value={model}
@@ -42,7 +36,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   ID:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="serial-num"
                   value={id}
@@ -56,7 +50,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                   Serial Number:
                 </label>
                 <input
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 outline-none font-roboto"
+                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-100 border-gray-300 outline-none font-roboto"
                   type="text"
                   id="serial-num"
                   value={serialNumber}
@@ -79,7 +73,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 Date Borrowed: <span className="text-red-500">*</span>
               </label>
               <input
-                className="w-full h-full px-4 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
+                className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-2 "
                 type="date"
                 id="date-borrowed"
               />
@@ -92,7 +86,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
                 Date Return: <span className="text-red-500">*</span>
               </label>
               <input
-                className="w-full h-full px-4 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
+                className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="date"
                 id="date-return"
               />
@@ -108,7 +102,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
               </label>
               <input
                 onClick={() => setOpenName(!openName)}
-                className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
+                className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="name"
                 placeholder="Enter your name"
@@ -150,7 +144,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
               </label>
               <input
                 onClick={() => setOpenEvent(!openEvent)}
-                className="h-10 p-2 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
+                className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="event"
                 placeholder="Enter event name"
@@ -192,7 +186,7 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
             </label>
             <textarea
               rows="4"
-              className="w-full h-full p-4 text-sm text-gray-500 border rounded outline-none font-roboto focus:ring-1"
+              className="w-full h-full p-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
               id="notes"
               placeholder="Enter Notes"
             ></textarea>
@@ -209,9 +203,9 @@ const LendingFormModal = ({ closeLendingForm, model, id, serialNumber }) => {
               Cancel
             </button>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 export default LendingFormModal;
