@@ -45,6 +45,15 @@ const LendingFormModal = ({
   });
 
   useEffect(() => {
+    const timer = setInterval(() => {
+      setDanger(false);
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [danger]);
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (closeRef.current && !closeRef.current.contains(event.target)) {
         setOpenName(false);
