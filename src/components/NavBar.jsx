@@ -35,7 +35,7 @@ const NavBar = ({ toggle }) => {
     setToolTip(true);
   };
   return (
-    <div className="w-auto h-[90vh] border-r">
+    <div className={`${!toggle ? "w-[20vw]" : "w-auto"} h-[90vh] border-r`}>
       <div className="flex flex-col h-24 gap-2 p-2 border-b ">
         <button
           onMouseEnter={() => handleopenToolTip("deviceList")}

@@ -31,16 +31,17 @@ const LendingFormModal = ({
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const closeRef = useRef(null);
-
+  const [eventList, setEventList] = useState([]);
+  const [originalEvent, setOriginalEvent] = useState([]);
   const [addData, setAddData] = useState({
     event: "",
-    dateLent: formatDateLent(new Date()) || "",
-    model: `${model}` || "",
-    id: `${id}` || "",
-    serialNumber: `${serialNumber}` || "",
+    dateLent: formatDateLent(new Date()),
+    model: `${model}`,
+    id: `${id}`,
+    serialNumber: `${serialNumber}`,
     employee: "",
     status: "Pending Return",
-    dateReturn: formatDateReturn(new Date()) || "",
+    dateReturn: formatDateReturn(new Date()),
     notes: "",
   });
 
@@ -53,19 +54,19 @@ const LendingFormModal = ({
       clearInterval(timer);
     };
   }, [danger]);
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (closeRef.current && !closeRef.current.contains(event.target)) {
-        setOpenName(false);
-        setOpenEvent(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (closeRef.current && !closeRef.current.contains(event.target)) {
+  //       setOpenName(false);
+  //       setOpenEvent(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openName, openEvent]);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [openName, openEvent]);
 
   const handleAddForm = (e) => {
     const { name, value } = e.target;
@@ -105,7 +106,7 @@ const LendingFormModal = ({
   };
 
   useEffect(() => {
-    if (addData.employee === undefined || addData.employee === "") {
+    if (addData.employee === undefined || addData.employee.trim() === "") {
       setData(originalData);
     } else {
       const filteredData = originalData.filter(
@@ -121,19 +122,40 @@ const LendingFormModal = ({
       setData(filteredData);
       console.log(filteredData);
     }
-  }, [addData.employee, originalData]);
+
+    if (addData.event === undefined || addData.event.trim() === "") {
+      setEventList(originalEvent);
+    } else {
+      const filteredEvent = originalEvent.filter((event) =>
+        event.Event.toLowerCase().includes(addData.event.toLowerCase())
+      );
+      setEventList(filteredEvent);
+      console.log(filteredEvent);
+    }
+  }, [addData.employee, originalData, originalEvent, addData.event]);
 
   useEffect(() => {
+    const lendingRecordUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=1313317968&single=true&output=csv";
+    const nameUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vS49nZFmBeOjvS6RWdQvh52klT6WfsKRtUVeZTZ5gJnbagupJX2PdvgvTgA2XrEuFyacm9e0XBBSLfF/pub?gid=1675047565&single=true&output=csv";
     fetchCSVData({
-      csvUrl:
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vS49nZFmBeOjvS6RWdQvh52klT6WfsKRtUVeZTZ5gJnbagupJX2PdvgvTgA2XrEuFyacm9e0XBBSLfF/pub?gid=0&single=true&output=csv",
-      data: handleData,
+      csvUrl: nameUrl,
+      data: handleEmployee,
+    });
+    fetchCSVData({
+      csvUrl: lendingRecordUrl,
+      data: handleEvent,
     });
   }, []);
 
-  const handleData = (jsonData) => {
+  const handleEmployee = (jsonData) => {
     setOriginalData(jsonData);
     setData(jsonData);
+  };
+  const handleEvent = (jsonData) => {
+    setOriginalEvent(jsonData);
+    setEventList(jsonData);
   };
 
   const handleList = (value) => {
@@ -153,7 +175,7 @@ const LendingFormModal = ({
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="item"
                 >
-                  Item:
+                  Item: <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="model"
@@ -169,7 +191,7 @@ const LendingFormModal = ({
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="serial-num"
                 >
-                  ID:
+                  ID: <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="id"
@@ -185,7 +207,7 @@ const LendingFormModal = ({
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="serial-num"
                 >
-                  Serial Number:
+                  Serial Number: <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="serialNumber"
@@ -314,27 +336,14 @@ const LendingFormModal = ({
                 ref={closeRef}
                 className="absolute w-full h-auto mt-[1px] bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px]"
               >
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
-                <li className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100">
-                  adasdas
-                </li>
+                {eventList.map((event, index) => (
+                  <li
+                    key={index}
+                    className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                  >
+                    {event.Event}
+                  </li>
+                ))}
               </ul>
             )}
           </div>

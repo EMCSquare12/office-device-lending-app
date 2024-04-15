@@ -35,11 +35,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
 
       const data = await response.json();
       console.log("Response:", data);
-<<<<<<< HEAD
-      console.log(response)
-=======
       setAddData({ model: "", id: maxID, serialNumber: "" });
->>>>>>> c41e41e4acfa3294a4ef132ecc23e779878412a4
     } catch (error) {
       console.error("Error posting data:", error);
     }

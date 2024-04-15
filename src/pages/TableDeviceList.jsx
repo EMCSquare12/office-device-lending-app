@@ -188,7 +188,7 @@ const TableDeviceList = ({
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
-                      className={`outline-none ${
+                      className={`outline-none flex items-center${
                         editable === true && IdOption === index
                           ? "bg-gray-100 border border-gray-200 "
                           : ""
@@ -203,7 +203,7 @@ const TableDeviceList = ({
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
-                      className={`outline-none ${
+                      className={`outline-none flex items-center${
                         editable === true && IdOption === index
                           ? "bg-gray-100 border border-gray-200"
                           : ""
@@ -218,7 +218,7 @@ const TableDeviceList = ({
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
-                      className={`outline-none ${
+                      className={`outline-none flex items-center${
                         editable === true && IdOption === index
                           ? "bg-gray-100 border border-gray-200 "
                           : ""
@@ -230,10 +230,10 @@ const TableDeviceList = ({
                   </td>
                   <td
                     onDoubleClick={() => handleConfirmItem(index)}
-                    className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
+                    className="flex flex-row justify-between w-auto gap-2 px-6 py-2 text-xs text-left md:text-sm"
                   >
                     <h1
-                      className={`outline-none ${
+                      className={`outline-none flex items-center${
                         editable === true && IdOption === index
                           ? "bg-gray-100 border border-gray-200"
                           : ""
@@ -242,6 +242,12 @@ const TableDeviceList = ({
                     >
                       {status}
                     </h1>
+                    <button
+                      onClick={() => handleConfirmItem(index)}
+                      className="flex items-center h-auto px-3 py-1 text-xs text-white bg-blue-500 rounded-sm shadow hover:bg-blue-600"
+                    >
+                      Borrow
+                    </button>
                   </td>
                   <td className="relative right-0 w-10 h-full ">
                     <button
