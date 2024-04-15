@@ -2,6 +2,7 @@ import { GrAdd } from "react-icons/gr";
 import { useRef, useState, useEffect } from "react";
 import SubHeader from "../components/SubHeader";
 import fetchCSVData from "../components/data/fetchCSVData";
+import DeviceList from "../components/DeviceList";
 
 const formatDateLent = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -34,8 +35,7 @@ const LendingFormModal = ({
   const closeRef = useRef(null);
   const [eventList, setEventList] = useState([]);
   const [originalEvent, setOriginalEvent] = useState([]);
-  const [device, setDevice] = useState([]);
-  const [originalDevice, setOriginalDevice] = useState([]);
+
   const [addData, setAddData] = useState({
     event: "",
     dateLent: formatDateLent(new Date()),
@@ -131,38 +131,25 @@ const LendingFormModal = ({
         )
       : originalEvent;
 
-    // Filter device list based on model
-    const filteredDeviceList = addData.model
-      ? originalDevice.filter(({ "Device Model": device }) =>
-          device.toLowerCase().includes(addData.model.toLowerCase())
-        )
-      : originalDevice;
+
 
     // Update state variables
     setData(filteredDataByEmployee);
     setEventList(filteredEventList);
-    setDevice(filteredDeviceList);
+    
 
     // Log filtered data
     // console.log("Filtered Data by Employee:", filteredDataByEmployee);
     // console.log("Filtered Event List:", filteredEventList);
     // console.log("Filtered Device List:", filteredDeviceList);
-  }, [
-    addData.employee,
-    addData.event,
-    addData.model,
-    originalData,
-    originalEvent,
-    originalDevice,
-  ]);
+  }, [addData.employee, addData.event, originalData, originalEvent]);
 
   useEffect(() => {
     const lendingRecordUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=1313317968&single=true&output=csv";
     const nameUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vS49nZFmBeOjvS6RWdQvh52klT6WfsKRtUVeZTZ5gJnbagupJX2PdvgvTgA2XrEuFyacm9e0XBBSLfF/pub?gid=1675047565&single=true&output=csv";
-    const deviceUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv";
+
     fetchCSVData({
       csvUrl: nameUrl,
       data: handleEmployee,
@@ -170,10 +157,6 @@ const LendingFormModal = ({
     fetchCSVData({
       csvUrl: lendingRecordUrl,
       data: handleEvent,
-    });
-    fetchCSVData({
-      csvUrl: deviceUrl,
-      data: handleDevice,
     });
   }, []);
 
@@ -186,113 +169,22 @@ const LendingFormModal = ({
     setEventList(jsonData);
   };
 
-  const handleDevice = (jsonData) => {
-    setOriginalDevice(jsonData);
-    setDevice(jsonData);
-  };
-
-  const handleList = (value, name, index) => {
-    if (name === "employee") {
-      setAddData((prev) => ({ ...prev, employee: value }));
-      setOpenName(false);
-    } else if (name === "event") {
-      setAddData((prev) => ({ ...prev, event: value }));
-      setOpenEvent(false);
-    } else {
-      setAddData((prev) => ({ ...prev, model: value }));
-      setOpenDevice(false);
-      setAddData((prev) => ({
-        ...prev,
-        id: device[index].ID,
-      }));
-      setAddData((prev) => ({
-        ...prev,
-        serialNumber: device[index]["Serial Number"],
-      }));
-    }
+  const handleList = (value, name) => {
+    name === "employee"
+      ? (setAddData((prev) => ({ ...prev, employee: value })),
+        setOpenName(false))
+      : name === "event"
+      ? (setAddData((prev) => ({ ...prev, event: value })), setOpenEvent(false))
+      : null;
   };
 
   return (
     <>
       <SubHeader title="Lending Form"></SubHeader>
-
       <div className="relative flex flex-col items-center justify-center w-full h-auto gap-6 py-5 bg-white">
         <form className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow">
           <div className="relative flex flex-col justify-start h-full w-fit">
-            <div className="flex flex-row w-auto h-full gap-4 ">
-              <div className="relative">
-                <div className="flex flex-col h-full gap-2 ">
-                  <label
-                    className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-                    htmlFor="item"
-                  >
-                    Device Model: <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    onClick={() => {
-                      setOpenDevice(!openDevice);
-                      setDevice(originalDevice);
-                    }}
-                    name="model"
-                    className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
-                    type="text"
-                    id="item"
-                    value={addData.model}
-                    onChange={handleAddForm}
-                  />
-                </div>
-                {openDevice && (
-                  <ul
-                    ref={closeRef}
-                    className="absolute w-full h-auto bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px] z-10 bottom-100 mt-1"
-                  >
-                    {device.map(({ "Device Model": device }, index) => (
-                      <li
-                        onClick={() => handleList(device, "device", index)}
-                        key={index}
-                        className="h-auto px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
-                      >
-                        {device}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-              <div className="flex flex-col items-start justify-center h-full gap-2">
-                <label
-                  className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-                  htmlFor="serial-num"
-                >
-                  ID:
-                </label>
-                <input
-                  name="id"
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
-                  type="text"
-                  id="serial-num"
-                  value={addData.id}
-                  onChange={handleAddForm}
-                  readOnly
-                />
-              </div>
-              <div className="flex flex-col items-start justify-center h-full gap-2">
-                <label
-                  className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-                  htmlFor="serial-num"
-                >
-                  Serial Number:
-                </label>
-                <input
-                  name="serialNumber"
-                  className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
-                  type="text"
-                  id="serial-num"
-                  value={addData.serialNumber}
-                  onChange={handleAddForm}
-                  readOnly
-                />
-              </div>
-            </div>
+            <DeviceList deviceData={(value) => setAddData(value)} />
             <div className="flex justify-end h-full pr-2 mt-2">
               <button className="flex flex-row items-center h-full gap-1 text-sm text-blue-500 border-b border-transparent w-fit font-roboto hover:text-blue-600">
                 <GrAdd className="text-xs" /> Add
