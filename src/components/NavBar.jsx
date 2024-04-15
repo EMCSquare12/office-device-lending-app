@@ -4,22 +4,14 @@ import { FaBoxes } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import ToolTip from "./Tooltip";
 
-const NavBar = ({ toggle, subHeader }) => {
-  const [shTitle, setShTitle] = useState({
-    deviceList: "On-Hand Devices",
-    borrowerList: "Devices Lent",
-  });
+const NavBar = ({ toggle }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [btnPath, setBtnPath] = useState("");
   const [toolTip, setToolTip] = useState(false);
   const [tooltipId, setTooltipId] = useState("");
 
-  const handleSubHeaderTitle = (value) => {
-    const newValue =
-      value === "deviceList" ? shTitle.deviceList : shTitle.borrowerList;
-    subHeader(newValue);
-
+  const handleToggleRoute = (value) => {
     const route = value === "deviceList" ? "/deviceList" : "/borrowerList";
     navigate(route);
   };
@@ -44,13 +36,15 @@ const NavBar = ({ toggle, subHeader }) => {
   };
   return (
     <div className="w-auto h-[90vh] border-r">
-      <div className="flex flex-col h-24 gap-2 p-2 border-b">
+      <div className="flex flex-col h-24 gap-2 p-2 border-b ">
         <button
           onMouseEnter={() => handleopenToolTip("deviceList")}
           onMouseLeave={() => setToolTip(false)}
-          onClick={() => handleSubHeaderTitle("deviceList")}
+          onClick={() => handleToggleRoute("deviceList")}
           className={`relative flex flex-row items-center w-full h-12 px-2 text-xs transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto ${
-            btnPath === "/deviceList" || btnPath === "/"
+            btnPath === "/deviceList" ||
+            btnPath === "/" ||
+            btnPath === "/deviceList/lending-form"
               ? "bg-blue-100 text-blue-500"
               : "text-gray-500 hover:bg-gray-200 hover:text-gray-500"
           }`}
@@ -60,7 +54,7 @@ const NavBar = ({ toggle, subHeader }) => {
           </span>
           {!toggle && (
             <span className="w-full text-left whitespace-nowrap">
-              {shTitle.deviceList}
+              On Hand Device
             </span>
           )}
           {toolTip && tooltipId === "deviceList" && toggle && (
@@ -70,7 +64,7 @@ const NavBar = ({ toggle, subHeader }) => {
         <button
           onMouseEnter={() => handleopenToolTip("borrower")}
           onMouseLeave={() => setToolTip(false)}
-          onClick={() => handleSubHeaderTitle("borrowerList")}
+          onClick={() => handleToggleRoute("borrowerList")}
           className={`relative flex flex-row items-center w-full h-12 px-2 text-xs transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto  ${
             btnPath === "/borrowerList"
               ? "bg-blue-100 text-blue-500 "
@@ -82,7 +76,7 @@ const NavBar = ({ toggle, subHeader }) => {
           </span>
           {!toggle && (
             <span className="w-full text-left whitespace-nowrap">
-              {shTitle.borrowerList}
+              Device Lent
             </span>
           )}
           {toolTip && tooltipId === "borrower" && toggle && (

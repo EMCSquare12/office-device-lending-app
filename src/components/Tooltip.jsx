@@ -1,7 +1,7 @@
 const ToolTip = ({ text, position }) => {
   return (
     <div
-      className={`flex w-auto items-center h-8 px-3 rounded shadow bg-gray-700  absolute z-20 ${
+      className={`flex w-auto items-center h-8 px-3 rounded shadow bg-gray-700  absolute z-30 ${
         position !== undefined ? position : ""
       }`}
     >

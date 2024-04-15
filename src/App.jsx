@@ -1,51 +1,57 @@
 import Header from "./components/Header";
 import Navbar from "./components/NavBar";
-import SubHeader from "./components/SubHeader";
-import ConfirmModal from "./components/modals/ConfirmModal";
-import LendingFormModal from "./components/modals/LendingFormModal";
+import LendingFormModal from "./pages/LendingFormModal";
 import AddItemModal from "./components/modals/AddItemModal";
 import { useEffect, useState } from "react";
-import TableDeviceList from "./components/pages/TableDeviceList";
-import TableBorrowerList from "./components/pages/TableBorrowerList";
+import TableDeviceList from "./pages/TableDeviceList";
+import TableBorrowerList from "./pages/TableBorrowerList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DeleteModal from "./components/modals/DeleteModal";
+import SuccessAlert from "./components/SuccessAlert";
+import DangerAlert from "./components/DangerAlert";
 
 function App() {
-  const [isOpen, setIsOpen] = useState();
-  const [subHeader, setSubHeader] = useState();
-  const [item, setItem] = useState();
-  const [lendingModal, setLendingModal] = useState();
-  const [openAddItem, setOpenAddItem] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const [item, setItem] = useState({});
+  const [openAddItem, setOpenAddItem] = useState(false);
   const [searchDevice, setSearchDevice] = useState();
-  const [deleteModal, setDeleteModal] = useState();
-  const [confirmModal, setConfirmModal] = useState();
-  const [maxID, setMaxID] = useState()
-  const handleCloseLendingForm = () => {
-    setConfirmModal(false);
-    setLendingModal(false);
-  };
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [maxID, setMaxID] = useState();
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [dangerAlert, setDangerAlert] = useState({
+    alert:false,
+    message:""
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSuccessAlert(false);
+      setDangerAlert(false);
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [successAlert, dangerAlert]);
 
   return (
     <div className="relative">
+      {successAlert && <SuccessAlert message={"Item Borrowed Successfully!"} />}
+      {dangerAlert.alert && <DangerAlert message={dangerAlert.message} />}
       {deleteModal && (
         <DeleteModal
-          item={item}
+          item={item["Device Model"]}
           closeModal={() => setDeleteModal(false)}
           deleteModal={() => setDeleteModal(false)} //Todo
         />
       )}
-      {confirmModal && (
-        <ConfirmModal
-          item={item}
-          closeModal={() => setConfirmModal(false)}
-          confirmModal={() => setLendingModal(true)}
-        />
-      )}
-      {lendingModal && (
-        <LendingFormModal closeLendingForm={handleCloseLendingForm} />
-      )}
+
       {openAddItem && (
-        <AddItemModal closeAddItem={() => setOpenAddItem(false)} maxID={maxID}/>
+        <AddItemModal
+          closeAddItem={() => setOpenAddItem(false)}
+          maxID={maxID}
+        />
       )}
       <Header
         toggle={(value) => setIsOpen(value)}
@@ -53,12 +59,12 @@ function App() {
       />
       <div className="w-full h-[90vh] flex flex-row">
         <BrowserRouter>
-          <Navbar toggle={isOpen} subHeader={(value) => setSubHeader(value)} />
+          <Navbar toggle={isOpen} />
           <div className="flex flex-col w-full">
-            <SubHeader
+            {/* <SubHeader
               subHeader={subHeader}
               openAddItem={() => setOpenAddItem(true)}
-            />
+            /> */}
             <div className="overflow-y-scroll ">
               <Routes>
                 <Route
@@ -66,11 +72,11 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
-                      
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
@@ -79,10 +85,11 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
@@ -91,16 +98,29 @@ function App() {
                   element={
                     <TableDeviceList
                       confirmModal={() => setConfirmModal(true)}
-                      itemModal={(value) => setItem(value)}
+                      item={(value) => setItem(value)}
                       searchItem={searchDevice}
                       deleteModal={() => setDeleteModal(true)}
                       maxID={(value) => setMaxID(value)}
+                      openAddItem={() => setOpenAddItem(true)}
                     />
                   }
                 />
                 <Route
                   path="/borrowerList"
                   element={<TableBorrowerList searchBorrower={searchDevice} />}
+                />
+                <Route
+                  path="/deviceList/lending-form"
+                  element={
+                    <LendingFormModal
+                      model={item["Device Model"]}
+                      id={item.ID}
+                      serialNumber={item["Serial Number"]}
+                      successAlert={(value) => setSuccessAlert(value)}
+                      dangerAlert={(value) => setDangerAlert(value)}
+                    />
+                  }
                 />
               </Routes>
             </div>
