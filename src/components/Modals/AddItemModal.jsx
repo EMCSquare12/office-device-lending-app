@@ -35,6 +35,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
 
       const data = await response.json();
       console.log("Response:", data);
+      console.log(response)
     } catch (error) {
       console.error("Error posting data:", error);
     }
