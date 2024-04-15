@@ -27,12 +27,15 @@ const LendingFormModal = ({
 }) => {
   const [openName, setOpenName] = useState(false);
   const [openEvent, setOpenEvent] = useState(false);
+  const [openDevice, setOpenDevice] = useState(false);
   const [danger, setDanger] = useState(false);
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const closeRef = useRef(null);
   const [eventList, setEventList] = useState([]);
   const [originalEvent, setOriginalEvent] = useState([]);
+  const [device, setDevice] = useState([]);
+  const [originalDevice, setOriginalDevice] = useState([]);
   const [addData, setAddData] = useState({
     event: "",
     dateLent: formatDateLent(new Date()),
@@ -54,19 +57,20 @@ const LendingFormModal = ({
       clearInterval(timer);
     };
   }, [danger]);
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (closeRef.current && !closeRef.current.contains(event.target)) {
-  //       setOpenName(false);
-  //       setOpenEvent(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (closeRef.current && !closeRef.current.contains(event.target)) {
+        setOpenName(false);
+        setOpenEvent(false);
+        setOpenDevice(false);
+      }
+    };
 
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [openName, openEvent]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openName, openEvent, openDevice]);
 
   const handleAddForm = (e) => {
     const { name, value } = e.target;
@@ -106,39 +110,59 @@ const LendingFormModal = ({
   };
 
   useEffect(() => {
-    if (addData.employee === undefined || addData.employee.trim() === "") {
-      setData(originalData);
-    } else {
-      const filteredData = originalData.filter(
-        ({
-          "FIRST NAME": firstName,
-          "LAST NAME": lastName,
-          POSITION: position,
-        }) =>
-          firstName.toLowerCase().includes(addData.employee.toLowerCase()) ||
-          lastName.toLowerCase().includes(addData.employee.toLowerCase()) ||
-          position.toLowerCase().includes(addData.employee.toLowerCase())
-      );
-      setData(filteredData);
-      console.log(filteredData);
-    }
+    // Filter data based on employee name
+    const filteredDataByEmployee = addData.employee
+      ? originalData.filter(
+          ({
+            "FIRST NAME": firstName,
+            "LAST NAME": lastName,
+            POSITION: position,
+          }) =>
+            firstName.toLowerCase().includes(addData.employee.toLowerCase()) ||
+            lastName.toLowerCase().includes(addData.employee.toLowerCase()) ||
+            position.toLowerCase().includes(addData.employee.toLowerCase())
+        )
+      : originalData;
 
-    if (addData.event === undefined || addData.event.trim() === "") {
-      setEventList(originalEvent);
-    } else {
-      const filteredEvent = originalEvent.filter((event) =>
-        event.Event.toLowerCase().includes(addData.event.toLowerCase())
-      );
-      setEventList(filteredEvent);
-      console.log(filteredEvent);
-    }
-  }, [addData.employee, originalData, originalEvent, addData.event]);
+    // Filter event list based on event name
+    const filteredEventList = addData.event
+      ? originalEvent.filter(({ Event }) =>
+          Event.toLowerCase().includes(addData.event.toLowerCase())
+        )
+      : originalEvent;
+
+    // Filter device list based on model
+    const filteredDeviceList = addData.model
+      ? originalDevice.filter(({ "Device Model": device }) =>
+          device.toLowerCase().includes(addData.model.toLowerCase())
+        )
+      : originalDevice;
+
+    // Update state variables
+    setData(filteredDataByEmployee);
+    setEventList(filteredEventList);
+    setDevice(filteredDeviceList);
+
+    // Log filtered data
+    console.log("Filtered Data by Employee:", filteredDataByEmployee);
+    console.log("Filtered Event List:", filteredEventList);
+    console.log("Filtered Device List:", filteredDeviceList);
+  }, [
+    addData.employee,
+    addData.event,
+    addData.model,
+    originalData,
+    originalEvent,
+    originalDevice,
+  ]);
 
   useEffect(() => {
     const lendingRecordUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=1313317968&single=true&output=csv";
     const nameUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vS49nZFmBeOjvS6RWdQvh52klT6WfsKRtUVeZTZ5gJnbagupJX2PdvgvTgA2XrEuFyacm9e0XBBSLfF/pub?gid=1675047565&single=true&output=csv";
+    const deviceUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrsiAP5MDHLubuHbyBWW7-26EZOBGmK54XmMdzVQxsoLYXhQY6rFlY1zolPdzDCYdW5loWyd6dh6yV/pub?gid=0&single=true&output=csv";
     fetchCSVData({
       csvUrl: nameUrl,
       data: handleEmployee,
@@ -146,6 +170,10 @@ const LendingFormModal = ({
     fetchCSVData({
       csvUrl: lendingRecordUrl,
       data: handleEvent,
+    });
+    fetchCSVData({
+      csvUrl: deviceUrl,
+      data: handleDevice,
     });
   }, []);
 
@@ -158,8 +186,17 @@ const LendingFormModal = ({
     setEventList(jsonData);
   };
 
-  const handleList = (value) => {
-    setAddData((prev) => ({ ...prev, employee: value }));
+  const handleDevice = (jsonData) => {
+    setOriginalDevice(jsonData);
+    setDevice(jsonData);
+  };
+
+  const handleList = (value, name) => {
+    name === "employee"
+      ? setAddData((prev) => ({ ...prev, employee: value }))
+      : name === "event"
+      ? setAddData((prev) => ({ ...prev, event: value }))
+      : setAddData((prev) => ({ ...prev, model: value }));
     console.log(value);
   };
   return (
@@ -170,21 +207,40 @@ const LendingFormModal = ({
         <form className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow">
           <div className="relative flex flex-col justify-start h-full w-fit">
             <div className="flex flex-row w-auto h-full gap-4 ">
-              <div className="flex flex-col items-start justify-center h-full gap-2">
-                <label
-                  className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-                  htmlFor="item"
-                >
-                  Item: <span className="text-red-500">*</span>
-                </label>
-                <input
-                  name="model"
-                  className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
-                  type="text"
-                  id="item"
-                  value={addData.model}
-                  onChange={handleAddForm}
-                />
+              <div className="relative">
+                <div className="flex flex-col h-full gap-2 ">
+                  <label
+                    className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
+                    htmlFor="item"
+                  >
+                    Item: <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    onClick={() => setOpenDevice(!openDevice)}
+                    name="model"
+                    className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
+                    type="text"
+                    id="item"
+                    value={addData.model}
+                    onChange={handleAddForm}
+                  />
+                </div>
+                {openDevice && (
+                  <ul
+                    ref={closeRef}
+                    className="absolute w-full h-auto bg-white border rounded-md shadow-md overflow-y-scroll max-h-[200px] z-10 bottom-100 mt-1"
+                  >
+                    {device.map(({ "Device Model": device }, index) => (
+                      <li
+                        onClick={() => handleList(device, "device")}
+                        key={index}
+                        className="h-auto px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                      >
+                        {device}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <div className="flex flex-col items-start justify-center h-full gap-2">
                 <label
@@ -300,7 +356,9 @@ const LendingFormModal = ({
                     index
                   ) => (
                     <li
-                      onClick={() => handleList(`${firstName} ${lastName}`)}
+                      onClick={() =>
+                        handleList(`${firstName} ${lastName}`, "employee")
+                      }
                       key={index}
                       className="flex flex-row items-center h-10 gap-2 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
                     >
@@ -338,6 +396,7 @@ const LendingFormModal = ({
               >
                 {eventList.map((event, index) => (
                   <li
+                    onClick={() => handleList(event.Event, "event")}
                     key={index}
                     className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
                   >

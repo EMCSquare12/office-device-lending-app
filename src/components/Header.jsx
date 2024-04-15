@@ -48,15 +48,15 @@ const Header = ({ toggle, search }) => {
       </div>
       <div className="flex flex-row p-4 ">
         <div className="relative flex flex-row w-full h-full bg-gray-100 rounded hover:shadow">
-          <button className="flex items-center justify-center h-full text-lg text-gray-500 outline-none hover:bg-gray-200 w-14">
+          <span className="flex items-center justify-center h-full text-lg text-gray-500 outline-none w-14">
             <GoSearch className="text-gray-500" />
-          </button>
+          </span>
           <input
             // onClick={() => setIsOpenSearch(!isOpenSearch)}
             value={searchDevice}
             onChange={(event) => handleSearchDevice(event.target.value)}
             type="text"
-            placeholder="search item  "
+            placeholder="search item"
             className="w-full h-12 px-2 pr-4 text-sm text-gray-500 bg-transparent outline-none font-roboto md:text-base"
           />
         </div>

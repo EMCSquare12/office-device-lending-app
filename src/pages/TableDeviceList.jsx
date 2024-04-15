@@ -184,7 +184,7 @@ const TableDeviceList = ({
                   className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
                 >
                   <td
-                    onDoubleClick={() => handleConfirmItem(index)}
+                    // onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -199,7 +199,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirmItem(index)}
+                    // onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -214,7 +214,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirmItem(index)}
+                    // onDoubleClick={() => handleConfirmItem(index)}
                     className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
                   >
                     <h1
@@ -229,7 +229,7 @@ const TableDeviceList = ({
                     </h1>
                   </td>
                   <td
-                    onDoubleClick={() => handleConfirmItem(index)}
+                    // onDoubleClick={() => handleConfirmItem(index)}
                     className="flex flex-row justify-between w-auto gap-2 px-6 py-2 text-xs text-left md:text-sm"
                   >
                     <h1
