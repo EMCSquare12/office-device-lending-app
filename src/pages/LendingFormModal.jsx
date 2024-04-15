@@ -144,9 +144,9 @@ const LendingFormModal = ({
     setDevice(filteredDeviceList);
 
     // Log filtered data
-    console.log("Filtered Data by Employee:", filteredDataByEmployee);
-    console.log("Filtered Event List:", filteredEventList);
-    console.log("Filtered Device List:", filteredDeviceList);
+    // console.log("Filtered Data by Employee:", filteredDataByEmployee);
+    // console.log("Filtered Event List:", filteredEventList);
+    // console.log("Filtered Device List:", filteredDeviceList);
   }, [
     addData.employee,
     addData.event,
@@ -191,14 +191,27 @@ const LendingFormModal = ({
     setDevice(jsonData);
   };
 
-  const handleList = (value, name) => {
-    name === "employee"
-      ? setAddData((prev) => ({ ...prev, employee: value }))
-      : name === "event"
-      ? setAddData((prev) => ({ ...prev, event: value }))
-      : setAddData((prev) => ({ ...prev, model: value }));
-    console.log(value);
+  const handleList = (value, name, index) => {
+    if (name === "employee") {
+      setAddData((prev) => ({ ...prev, employee: value }));
+      setOpenName(false);
+    } else if (name === "event") {
+      setAddData((prev) => ({ ...prev, event: value }));
+      setOpenEvent(false);
+    } else {
+      setAddData((prev) => ({ ...prev, model: value }));
+      setOpenDevice(false);
+      setAddData((prev) => ({
+        ...prev,
+        id: device[index].ID,
+      }));
+      setAddData((prev) => ({
+        ...prev,
+        serialNumber: device[index]["Serial Number"],
+      }));
+    }
   };
+
   return (
     <>
       <SubHeader title="Lending Form"></SubHeader>
@@ -213,10 +226,13 @@ const LendingFormModal = ({
                     className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                     htmlFor="item"
                   >
-                    Item: <span className="text-red-500">*</span>
+                    Device Model: <span className="text-red-500">*</span>
                   </label>
                   <input
-                    onClick={() => setOpenDevice(!openDevice)}
+                    onClick={() => {
+                      setOpenDevice(!openDevice);
+                      setDevice(originalDevice);
+                    }}
                     name="model"
                     className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
                     type="text"
@@ -232,7 +248,7 @@ const LendingFormModal = ({
                   >
                     {device.map(({ "Device Model": device }, index) => (
                       <li
-                        onClick={() => handleList(device, "device")}
+                        onClick={() => handleList(device, "device", index)}
                         key={index}
                         className="h-auto px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
                       >
@@ -247,7 +263,7 @@ const LendingFormModal = ({
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="serial-num"
                 >
-                  ID: <span className="text-red-500">*</span>
+                  ID:
                 </label>
                 <input
                   name="id"
@@ -256,6 +272,7 @@ const LendingFormModal = ({
                   id="serial-num"
                   value={addData.id}
                   onChange={handleAddForm}
+                  readOnly
                 />
               </div>
               <div className="flex flex-col items-start justify-center h-full gap-2">
@@ -263,7 +280,7 @@ const LendingFormModal = ({
                   className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
                   htmlFor="serial-num"
                 >
-                  Serial Number: <span className="text-red-500">*</span>
+                  Serial Number:
                 </label>
                 <input
                   name="serialNumber"
@@ -272,6 +289,7 @@ const LendingFormModal = ({
                   id="serial-num"
                   value={addData.serialNumber}
                   onChange={handleAddForm}
+                  readOnly
                 />
               </div>
             </div>
@@ -328,7 +346,9 @@ const LendingFormModal = ({
                 value={addData.employee}
                 name="employee"
                 onClick={() => {
-                  setOpenName(!openName), setDanger(false);
+                  setOpenName(!openName);
+                  setDanger(false);
+                  setData(originalData);
                 }}
                 className={`h-10 p-2 text-sm text-gray-500 border  rounded outline-none font-roboto  ${
                   danger
@@ -381,7 +401,10 @@ const LendingFormModal = ({
               <input
                 value={addData.event}
                 name="event"
-                onClick={() => setOpenEvent(!openEvent)}
+                onClick={() => {
+                  setOpenEvent(!openEvent);
+                  setEventList(originalEvent);
+                }}
                 className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="event"

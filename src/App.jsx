@@ -108,11 +108,7 @@ function App() {
                 />
                 <Route
                   path="/borrowerList"
-                  element={
-                    <TableBorrowerList
-                      searchBorrower={searchDevice}
-                    />
-                  }
+                  element={<TableBorrowerList searchBorrower={searchDevice} />}
                 />
                 <Route
                   path="/deviceList/lending-form"

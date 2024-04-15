@@ -167,7 +167,7 @@ const TableDeviceList = ({
           </tr>
         </thead>
 
-        <tbody className="w-full ">
+        <tbody className="w-full h-auto ">
           {data.map(
             (
               {
@@ -181,11 +181,11 @@ const TableDeviceList = ({
               return (
                 <tr
                   key={index}
-                  className="relative h-10 border-b hover:shadow hover:bg-gray-50 "
+                  className="relative h-auto border-b hover:shadow hover:bg-gray-50 "
                 >
                   <td
                     // onDoubleClick={() => handleConfirmItem(index)}
-                    className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
+                    className="py-2 w-[20%] h-auto text-xs md:text-sm text-left px-6"
                   >
                     <h1
                       className={`outline-none flex items-center${
@@ -200,7 +200,7 @@ const TableDeviceList = ({
                   </td>
                   <td
                     // onDoubleClick={() => handleConfirmItem(index)}
-                    className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
+                    className="py-2 w-[20%] h-auto  text-xs md:text-sm text-left px-6"
                   >
                     <h1
                       className={`outline-none flex items-center${
@@ -215,7 +215,7 @@ const TableDeviceList = ({
                   </td>
                   <td
                     // onDoubleClick={() => handleConfirmItem(index)}
-                    className="py-2 w-[20%] text-xs md:text-sm text-left px-6"
+                    className="py-2 w-[20%] h-auto  text-xs md:text-sm text-left px-6"
                   >
                     <h1
                       className={`outline-none flex items-center${
@@ -230,10 +230,10 @@ const TableDeviceList = ({
                   </td>
                   <td
                     // onDoubleClick={() => handleConfirmItem(index)}
-                    className="flex flex-row justify-between w-auto gap-2 px-6 py-2 text-xs text-left md:text-sm"
+                    className="py-2 w-[20%] h-auto  text-xs md:text-sm text-left px-6"
                   >
                     <h1
-                      className={`outline-none flex items-center${
+                      className={`outline-none flex items-center ${
                         editable === true && IdOption === index
                           ? "bg-gray-100 border border-gray-200"
                           : ""
@@ -242,14 +242,22 @@ const TableDeviceList = ({
                     >
                       {status}
                     </h1>
+                  </td>
+                  <td
+                    // onDoubleClick={() => handleConfirmItem(index)}
+                    className="w-auto h-auto px-4 py-2 text-xs text-left border-r md:text-sm"
+                  >
                     <button
                       onClick={() => handleConfirmItem(index)}
-                      className="flex items-center h-auto px-3 py-1 text-xs text-white bg-blue-500 rounded-sm shadow hover:bg-blue-600"
+                      className="flex items-center h-8 px-3 py-1 text-xs text-white bg-blue-500 rounded-sm shadow hover:bg-blue-600"
                     >
                       Borrow
                     </button>
                   </td>
-                  <td className="relative right-0 w-10 h-full ">
+                  <td
+                    // onDoubleClick={() => handleConfirmItem(index)}
+                    className="relative w-auto h-auto px-2 py-2 text-xs text-left md:text-sm"
+                  >
                     <button
                       onClick={() => handleIsOpenOption(index)}
                       className="flex items-center justify-center w-10 h-10 text-gray-500 transition-all duration-200 ease-in-out outline-none hover:rounded-full hover:bg-gray-200 "
@@ -257,7 +265,7 @@ const TableDeviceList = ({
                       <BsThreeDotsVertical />
                     </button>
                     {isOpenOption && IdOption === index && (
-                      <ul className="absolute right-0 z-10 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow top-100">
+                      <ul className="absolute right-0 z-10 flex flex-col items-center justify-center mt-2 bg-white border rounded shadow-md top-100">
                         <li className="w-full">
                           <button
                             onClick={() => setEditable(true)}
