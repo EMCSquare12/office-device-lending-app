@@ -82,7 +82,7 @@ const LendingFormModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (addData.name !== undefined) {
+    if (addData.employee !== undefined) {
       try {
         const response = await fetch("http://localhost:5000/api/lending-form", {
           method: "POST",
@@ -131,12 +131,9 @@ const LendingFormModal = ({
         )
       : originalEvent;
 
-
-
     // Update state variables
     setData(filteredDataByEmployee);
     setEventList(filteredEventList);
-    
 
     // Log filtered data
     // console.log("Filtered Data by Employee:", filteredDataByEmployee);
@@ -184,7 +181,12 @@ const LendingFormModal = ({
       <div className="relative flex flex-col items-center justify-center w-full h-auto gap-6 py-5 bg-white">
         <form className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow">
           <div className="relative flex flex-col justify-start h-full w-fit">
-            <DeviceList deviceData={(value) => setAddData(value)} />
+            <DeviceList
+              deviceData={(value) => setAddData(value)}
+              id={id}
+              model={model}
+              serialNumber={serialNumber}
+            />
             <div className="flex justify-end h-full pr-2 mt-2">
               <button className="flex flex-row items-center h-full gap-1 text-sm text-blue-500 border-b border-transparent w-fit font-roboto hover:text-blue-600">
                 <GrAdd className="text-xs" /> Add

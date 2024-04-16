@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchCSVData from "./data/fetchCSVData";
-const DeviceList = ({ deviceData, model, id, serialNumber }) => {
+const DeviceList = ({ model, id, serialNumber }) => {
   const [openDevice, setOpenDevice] = useState(false);
   const [device, setDevice] = useState([]);
   const [originalDevice, setOriginalDevice] = useState([]);
@@ -34,16 +34,13 @@ const DeviceList = ({ deviceData, model, id, serialNumber }) => {
   };
 
   const handleList = (value, index) => {
-    setAddData((prev) => ({ ...prev, model: value }));
-    setOpenDevice(false);
     setAddData((prev) => ({
       ...prev,
+      model: value,
       id: device[index].ID,
-    }));
-    setAddData((prev) => ({
-      ...prev,
       serialNumber: device[index]["Serial Number"],
     }));
+    setOpenDevice(false);
   };
 
   useEffect(() => {
