@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import SubHeader from "../components/SubHeader";
 import fetchCSVData from "../components/data/fetchCSVData";
 import DeviceList from "../components/DeviceList";
+import { MdDeleteForever } from "react-icons/md";
+import { RxCircleBackslash } from "react-icons/rx";
 
 const formatDateLent = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -35,7 +37,7 @@ const LendingFormModal = ({
   const closeRef = useRef(null);
   const [eventList, setEventList] = useState([]);
   const [originalEvent, setOriginalEvent] = useState([]);
-
+  const [newDeviceList, setNewDeviceList] = useState([]);
   const [addData, setAddData] = useState({
     event: "",
     dateLent: formatDateLent(new Date()),
@@ -82,7 +84,7 @@ const LendingFormModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (addData.name !== undefined) {
+    if (addData.employee !== undefined) {
       try {
         const response = await fetch("http://localhost:5000/api/lending-form", {
           method: "POST",
@@ -131,12 +133,9 @@ const LendingFormModal = ({
         )
       : originalEvent;
 
-
-
     // Update state variables
     setData(filteredDataByEmployee);
     setEventList(filteredEventList);
-    
 
     // Log filtered data
     // console.log("Filtered Data by Employee:", filteredDataByEmployee);
@@ -178,15 +177,97 @@ const LendingFormModal = ({
       : null;
   };
 
+  const handleNewDevice = (e) => {
+    e.preventDefault();
+    const newDevice = {
+      id: id,
+      model: model,
+      serialNumber: serialNumber,
+    };
+    setNewDeviceList([...newDeviceList, newDevice]);
+
+    console.log(newDeviceList);
+  };
+
+  const handleDeleteDevice = (index) => {
+    const filterDeviceList = newDeviceList.filter((item, id) => id !== index);
+    setNewDeviceList(filterDeviceList);
+  };
   return (
     <>
       <SubHeader title="Lending Form"></SubHeader>
       <div className="relative flex flex-col items-center justify-center w-full h-auto gap-6 py-5 bg-white">
-        <form className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow">
-          <div className="relative flex flex-col justify-start h-full w-fit">
-            <DeviceList deviceData={(value) => setAddData(value)} />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col w-[80%]  h-full gap-6 py-5 px-10 bg-gray-100 shadow"
+        >
+          <div className="  min relative flex flex-col justify-start w-[80%] h-full gap-2 ">
+            <div className="flex flex-row w-full h-full gap-4">
+              <label
+                className="pl-4 text-sm text-gray-500 whitespace-nowrap font-roboto w-[32%]"
+                htmlFor="item"
+              >
+                Device Model: <span className="text-red-500">*</span>
+              </label>
+              <label
+                className="pl-4 text-sm text-gray-500 whitespace-nowrap font-roboto w-[32%]"
+                htmlFor="serial-num"
+              >
+                ID:
+              </label>
+              <label
+                className="pl-4 text-sm text-gray-500 whitespace-nowrap font-roboto w-[32%]"
+                htmlFor="serial-num"
+              >
+                Serial Number:
+              </label>
+              <div className="w-[6%]"></div>
+            </div>
+
+            <div
+              className={`${
+                newDeviceList.length > 3
+                  ? " overflow-y-scroll flex flex-col  gap-2 max-h-48"
+                  : "flex flex-col gap-2 h-auto"
+              } pr-2`}
+            >
+              <div className="flex flex-row items-center gap-2">
+                <DeviceList
+                  deviceData={(value) => setAddData(value)}
+                  id={id}
+                  model={model}
+                  serialNumber={serialNumber}
+                />
+                <button
+                  disabled
+                  onClick={() => handleDeleteDevice(index)}
+                  className="w-auto text-xl text-gray-500 cursor-not-allowed"
+                >
+                  <RxCircleBackslash />
+                </button>
+              </div>
+              {newDeviceList.map((device, index) => (
+                <div className="flex flex-row items-center gap-2">
+                  <DeviceList
+                    key={index} // Add a unique key
+                    id={device.id}
+                    model={device.model}
+                    serialNumber={device.serialNumber}
+                  />
+                  <button
+                    onClick={() => handleDeleteDevice(index)}
+                    className="w-auto text-xl text-red-500"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                </div>
+              ))}
+            </div>
             <div className="flex justify-end h-full pr-2 mt-2">
-              <button className="flex flex-row items-center h-full gap-1 text-sm text-blue-500 border-b border-transparent w-fit font-roboto hover:text-blue-600">
+              <button
+                onClick={handleNewDevice}
+                className="flex flex-row items-center h-full gap-1 text-sm text-blue-500 border-b border-transparent mr-7 w-fit font-roboto hover:text-blue-600"
+              >
                 <GrAdd className="text-xs" /> Add
               </button>
             </div>
@@ -203,7 +284,7 @@ const LendingFormModal = ({
               <input
                 value={addData.dateLent}
                 name="dateLent"
-                className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-2 "
+                className="w-full h-12 px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-2 "
                 type="date"
                 id="date-borrowed"
                 onChange={handleAddForm}
@@ -219,7 +300,7 @@ const LendingFormModal = ({
               <input
                 value={addData.dateReturn}
                 name="dateReturn"
-                className="w-full h-full px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
+                className="w-full h-12 px-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="date"
                 id="date-return"
                 onChange={handleAddForm}
@@ -242,7 +323,7 @@ const LendingFormModal = ({
                   setDanger(false);
                   setData(originalData);
                 }}
-                className={`h-10 p-2 text-sm text-gray-500 border  rounded outline-none font-roboto  ${
+                className={`h-12 p-2 text-sm text-gray-500 border  rounded outline-none font-roboto  ${
                   danger
                     ? "border-red-500 placeholder:text-red-500"
                     : "border-gray-300 focus:ring-1"
@@ -272,7 +353,7 @@ const LendingFormModal = ({
                         handleList(`${firstName} ${lastName}`, "employee")
                       }
                       key={index}
-                      className="flex flex-row items-center h-10 gap-2 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                      className="flex flex-row items-center h-12 gap-2 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
                     >
                       {`${firstName} ${lastName} `}
                       <span className="text-xs text-gray-400">{`(${position})`}</span>
@@ -297,7 +378,7 @@ const LendingFormModal = ({
                   setOpenEvent(!openEvent);
                   setEventList(originalEvent);
                 }}
-                className="h-10 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
+                className="h-12 p-2 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
                 type="text"
                 id="event"
                 placeholder="Enter event name"
@@ -313,7 +394,7 @@ const LendingFormModal = ({
                   <li
                     onClick={() => handleList(event.Event, "event")}
                     key={index}
-                    className="h-10 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                    className="flex items-center h-12 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
                   >
                     {event.Event}
                   </li>
@@ -331,7 +412,7 @@ const LendingFormModal = ({
             </label>
             <textarea
               name=" notes"
-              rows="4"
+              rows="6"
               className="w-full h-full p-4 text-sm text-gray-500 border border-gray-300 rounded outline-none font-roboto focus:ring-1"
               id="notes"
               placeholder="Enter Notes"
@@ -340,7 +421,7 @@ const LendingFormModal = ({
           </div>
           <div className="flex flex-row items-center justify-end gap-6">
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="px-6 py-2 text-base text-white bg-blue-500 rounded font-roboto hover:bg-blue-600"
             >
               Send
