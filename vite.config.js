@@ -6,7 +6,7 @@ export default defineConfig({
   base: "/office-device-lending-app/",
   server: {
     proxy: {
-      "/api": "http://localhost:5000",
+      "/api": "http://localhost:5001",
     },
   },
   plugins: [react()],

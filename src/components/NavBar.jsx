@@ -12,7 +12,10 @@ const NavBar = ({ toggle }) => {
   const [tooltipId, setTooltipId] = useState("");
 
   const handleToggleRoute = (value) => {
-    const route = value === "deviceList" ? "/deviceList" : "/borrowerList";
+    const route =
+      value === "deviceList"
+        ? "/deviceList" || "/office-device-lending-app"
+        : "/borrowerList";
     navigate(route);
   };
 
@@ -44,7 +47,8 @@ const NavBar = ({ toggle }) => {
           className={`relative flex flex-row items-center w-full h-12 px-2 text-xs transition-all duration-200 ease-in-out rounded outline-none md:text-sm font-roboto ${
             btnPath === "/deviceList" ||
             btnPath === "/" ||
-            btnPath === "/deviceList/lending-form"
+            btnPath === "/deviceList/lending-form" ||
+            btnPath === "/office-device-lending-app/"
               ? "bg-blue-100 text-blue-500"
               : "text-gray-500 hover:bg-gray-200 hover:text-gray-500"
           }`}
@@ -58,7 +62,7 @@ const NavBar = ({ toggle }) => {
             </span>
           )}
           {toolTip && tooltipId === "deviceList" && toggle && (
-            <ToolTip text={"Device List"} position={"rigth-0 ml-16"} />
+            <ToolTip text={"On Hand Devices"} position={"rigth-0 ml-16"} />
           )}
         </button>
         <button
@@ -80,7 +84,7 @@ const NavBar = ({ toggle }) => {
             </span>
           )}
           {toolTip && tooltipId === "borrower" && toggle && (
-            <ToolTip text={"Borrower Record"} position={"rigth-0 ml-16"} />
+            <ToolTip text={"Device Lent"} position={"rigth-0 ml-16"} />
           )}
         </button>
       </div>

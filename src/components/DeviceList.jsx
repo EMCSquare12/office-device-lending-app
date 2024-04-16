@@ -53,28 +53,20 @@ const DeviceList = ({ model, id, serialNumber }) => {
     setDevice(filteredDeviceList);
   }, [originalDevice, addData.model]);
   return (
-    <div className="flex flex-row w-auto h-full gap-4 ">
-      <div className="relative">
-        <div className="flex flex-col h-full gap-2 ">
-          <label
-            className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-            htmlFor="item"
-          >
-            Device Model: <span className="text-red-500">*</span>
-          </label>
-          <input
-            onClick={() => {
-              setOpenDevice(!openDevice);
-              setDevice(originalDevice);
-            }}
-            name="model"
-            className="w-full h-10 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto"
-            type="text"
-            id="item"
-            value={addData.model}
-            onChange={handleAddForm}
-          />
-        </div>
+    <div className="flex flex-row w-full h-full gap-4 ">
+      <div className="relative w-[32%]">
+        <input
+          onClick={() => {
+            setOpenDevice(!openDevice);
+            setDevice(originalDevice);
+          }}
+          name="model"
+          className="w-full h-12 px-4 text-sm text-gray-500 truncate bg-gray-200 border-gray-300 outline-none font-roboto focus:right-2"
+          type="text"
+          id="item"
+          value={addData.model}
+          onChange={handleAddForm}
+        />
         {openDevice && (
           <ul
             // ref={closeRef}
@@ -84,7 +76,7 @@ const DeviceList = ({ model, id, serialNumber }) => {
               <li
                 onClick={() => handleList(device, index)}
                 key={index}
-                className="h-auto px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
+                className="flex items-center h-12 px-6 py-2 text-sm text-gray-500 border-b font-roboto hover:bg-gray-100"
               >
                 {device}
               </li>
@@ -92,40 +84,24 @@ const DeviceList = ({ model, id, serialNumber }) => {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-start justify-center h-full gap-2">
-        <label
-          className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-          htmlFor="serial-num"
-        >
-          ID:
-        </label>
-        <input
-          name="id"
-          className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
-          type="text"
-          id="serial-num"
-          value={addData.id}
-          onChange={handleAddForm}
-          readOnly
-        />
-      </div>
-      <div className="flex flex-col items-start justify-center h-full gap-2">
-        <label
-          className="pl-2 text-sm text-gray-500 whitespace-nowrap font-roboto"
-          htmlFor="serial-num"
-        >
-          Serial Number:
-        </label>
-        <input
-          name="serialNumber"
-          className="w-full h-10 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
-          type="text"
-          id="serial-num"
-          value={addData.serialNumber}
-          onChange={handleAddForm}
-          readOnly
-        />
-      </div>
+      <input
+        name="id"
+        className="w-[32%] h-12 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
+        type="text"
+        id="serial-num"
+        value={addData.id}
+        onChange={handleAddForm}
+        readOnly
+      />
+      <input
+        name="serialNumber"
+        className="w-[32%] h-12 px-4 text-sm text-gray-500 bg-gray-200 border-gray-300 outline-none font-roboto"
+        type="text"
+        id="serial-num"
+        value={addData.serialNumber}
+        onChange={handleAddForm}
+        readOnly
+      />
     </div>
   );
 };
