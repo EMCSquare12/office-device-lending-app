@@ -25,7 +25,7 @@ app.use(cors());
 app.post("/api/lending-form", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbyvUPMJLttAeK1MDYgO7cm9FLT0DU0rcPKth0cJT6q9GOXdCMbq5gg2igetk8GLURzI/exec";
+      "https://script.google.com/macros/s/AKfycbws67p1ioBLf9MBFgOXrGM2J8kKcxD2IQaMHF9ja3DGah0qgWKGo_BTfGWJMUJ2cO3p/exec";
 
     const response = await axios.post(url, req.body);
     res.json(response.data);
@@ -43,7 +43,7 @@ app.listen(5000, () => {
 app.post("/api/device-list", async (req, res) => {
   try {
     const url =
-      "https://script.google.com/macros/s/AKfycbxLdwOaA1I1XNy7-cTZsx8QelhV_nk5DP_Hodp-ThYnNJnaJRffCde_p5CuFzdL92L0/exec";
+      "https://script.google.com/macros/s/AKfycbyIK1GHB7IyPM3fXeuQ0x6-uNpgic6PuIYF9O1g09gX4p836E2JFGxjMuODpsHoEvxo/exec";
 
     const response = await axios.post(url, req.body);
     res.json(response.data);
