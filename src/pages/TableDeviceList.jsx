@@ -127,7 +127,7 @@ const TableDeviceList = ({
       <table className="w-full h-auto overflow-y-scroll text-sm text-gray-500 border-b font-roboto">
         <thead className="sticky z-20 w-full h-12 bg-white shadow top-12 ">
           <tr className="h-full bg-white table-fixed ">
-            <th className="relative items-center py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
+            <th className="relative  items-center py-2 w-[20%] border-r text-xs md:text-sm text-left px-6">
               <h1>{title.model}</h1>
               <button
                 onClick={() => handleSort(title.model)}

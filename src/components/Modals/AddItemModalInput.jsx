@@ -18,18 +18,18 @@ const AddItemModalInput = ({ maxID }) => {
 
   return (
     <>
-      <div className="flex w-[32%] flex-row items-center justify-between h-10 gap-4 ">
+      <div className="flex w-[16%] flex-row items-center justify-between h-10 gap-4 ">
         <input
           value={addData.id}
           name="id"
           type="text"
           id="id"
-          className="w-full h-10 p-2 text-sm text-gray-500 bg-gray-100 border border-gray-300 rounded outline-none font-roboto"
+          className="w-full h-10 p-2 text-sm text-gray-500 bg-gray-100 rounded outline-none font-roboto"
           onChange={handleAddForm}
         />
       </div>
 
-      <div className="flex w-[32%] flex-row items-center justify-between h-10 gapss-4">
+      <div className="flex w-[40%] flex-row items-center justify-between h-10 gapss-4">
         <input
           name="model"
           value={addData.model}
@@ -39,7 +39,7 @@ const AddItemModalInput = ({ maxID }) => {
           onChange={handleAddForm}
         />
       </div>
-      <div className="flex w-[32%] flex-row items-center justify-between h-10 gap-4">
+      <div className="flex w-[40%] flex-row items-center justify-between h-10 gap-4">
         <input
           name="serialNumber"
           value={addData.serialNumber}
@@ -49,7 +49,6 @@ const AddItemModalInput = ({ maxID }) => {
           onChange={handleAddForm}
         />
       </div>
-      
     </>
   );
 };

@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddItemModalInput from "./AddItemModalInput";
 import { MdDeleteForever } from "react-icons/md";
 import { RxCircleBackslash } from "react-icons/rx";
 import { GrAdd } from "react-icons/gr";
-const AddItemModal = ({ closeAddItem, maxID }) => {
+const AddItemModal = ({ closeAddItem, maxID, addDanger, addSuccess }) => {
   const closeRef = useRef();
   const [newDevice, setNewDevice] = useState([]);
   const [addData, setAddData] = useState({
@@ -33,21 +33,33 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
       });
 
       if (!response.ok) {
+        addDanger({ alert: true, message: "Failed to post data" });
         throw new Error("Failed to post data");
       }
 
       const data = await response.json();
       console.log("Response:", data);
+      addSuccess({ alert: true, message: `Response: ${data}` });
+      addSuccess({ alert: true, message: "Items Successfully Added!" });
       setAddData({ model: "", id: maxID, serialNumber: "" });
     } catch (error) {
       console.error("Error posting data:", error);
+      addDanger({ alert: true, message: `Error posting data ${error}` });
     }
   };
 
   const handleNewDevice = () => {
-    const device = <AddItemModalInput maxID={addData.id} />;
-    const newDeviceCopy = [...newDevice, device];
+    const maxID = parseInt(addData.id) + newDevice.length + 1;
+    const newDeviceCopy = [
+      ...newDevice,
+      <AddItemModalInput maxID={String(maxID)} />,
+    ];
     setNewDevice(newDeviceCopy);
+  };
+
+  const handleDelete = (index) => {
+    const filteredNewDevice = newDevice.filter((item, id) => id !== index);
+    setNewDevice(filteredNewDevice);
   };
   return (
     <div
@@ -66,7 +78,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
         <hr />
 
         <div className="flex flex-row gap-4 px-4">
-          <div className="flex w-[32%] flex-row items-end justify-between h-10 gap-4">
+          <div className="flex w-[16%] flex-row items-end justify-between h-10 gap-4">
             <label
               htmlFor="id"
               className="pl-2 text-sm text-gray-500 font-roboto"
@@ -75,7 +87,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
             </label>
           </div>
 
-          <div className="flex w-[32%] flex-row items-end justify-between h-10 gapss-4">
+          <div className="flex w-[40%] flex-row items-end justify-between h-10 gapss-4">
             <label
               htmlFor="item"
               className="pl-2 text-sm text-gray-500 font-roboto "
@@ -83,7 +95,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
               Device Name:
             </label>
           </div>
-          <div className="flex w-[32%] flex-row items-end justify-between h-10 gap-4">
+          <div className="flex w-[40%] flex-row items-end justify-between h-10 gap-4">
             <label
               htmlFor="serial-number"
               className="pl-2 text-sm text-gray-500 font-roboto"
@@ -111,7 +123,10 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
             <div key={index} className="flex flex-row gap-4">
               {item}
               <div className="flex w-[4%] flex-row items-center justify-between h-10 gap-4">
-                <button className="text-lg text-red-500 ">
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="text-lg text-red-500 "
+                >
                   <MdDeleteForever />
                 </button>
               </div>
@@ -126,6 +141,7 @@ const AddItemModal = ({ closeAddItem, maxID }) => {
             <GrAdd /> Add
           </button>
         </div>
+        <hr />
 
         <div className="flex flex-row items-center justify-end gap-6 ">
           <button

@@ -28,7 +28,7 @@ function App() {
     const timer = setInterval(() => {
       setSuccessAlert(false);
       setDangerAlert(false);
-    }, 2000);
+    }, 3000);
 
     return () => {
       clearInterval(timer);
@@ -51,6 +51,8 @@ function App() {
         <AddItemModal
           closeAddItem={() => setOpenAddItem(false)}
           maxID={maxID}
+          addSuccess={(value) => setSuccessAlert(value)}
+          addDanger={(value) => setDangerAlert(value)}
         />
       )}
       <Header
@@ -118,8 +120,8 @@ function App() {
                       model={item["Device Model"]}
                       id={item.ID}
                       serialNumber={item["Serial Number"]}
-                      successAlert={(value) => setSuccessAlert(value)}
-                      dangerAlert={(value) => setDangerAlert(value)}
+                      lendingSuccess={(value) => setSuccessAlert(value)}
+                      lendingDanger={(value) => setDangerAlert(value)}
                     />
                   }
                 />
